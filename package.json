@@ -1,0 +1,69 @@
+{
+  "name": "app-preview-craft",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Agent skill: App Store and Play Store screenshots, social cards, 3D device mockups and promo videos from app screenshots and recordings.",
+  "keywords": [
+    "agent-skill",
+    "app-store-screenshots",
+    "play-store",
+    "screenshot-generator",
+    "app-preview",
+    "device-mockup",
+    "3d",
+    "threejs",
+    "puppeteer",
+    "ffmpeg",
+    "og-image",
+    "app-marketing"
+  ],
+  "homepage": "https://github.com/imshaikot/app-preview-craft",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imshaikot/app-preview-craft.git",
+    "directory": "skills/app-preview-craft"
+  },
+  "license": "MIT",
+  "author": "Shahriar",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "app-preview-craft": "scripts/cli.mjs"
+  },
+  "scripts": {
+    "studio": "node scripts/studio.mjs",
+    "doctor": "node scripts/doctor.mjs",
+    "models": "node scripts/models.mjs",
+    "samples": "node scripts/samples.mjs",
+    "selftest": "node scripts/selftest.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/big-shoulders-display": "^5.3.0",
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource-variable/nunito": "^5.3.0",
+    "@fontsource-variable/outfit": "^5.3.0",
+    "@fontsource-variable/playfair-display": "^5.3.0",
+    "@fontsource-variable/plus-jakarta-sans": "^5.3.0",
+    "@fontsource-variable/sora": "^5.3.0",
+    "@fontsource-variable/space-grotesk": "^5.3.0",
+    "@fontsource-variable/syne": "^5.3.0",
+    "@fontsource-variable/unbounded": "^5.3.0",
+    "@fontsource/caveat": "^5.3.0",
+    "@fontsource/dm-serif-display": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
+    "@fontsource/press-start-2p": "^5.3.0",
+    "@gltf-transform/core": "^4.5.0",
+    "@gltf-transform/extensions": "^4.5.0",
+    "@gltf-transform/functions": "^4.5.0",
+    "meshoptimizer": "^1.2.0",
+    "puppeteer-core": "^25.11.0",
+    "sharp": "^0.35.4",
+    "three": "^0.186.0"
+  }
+}
