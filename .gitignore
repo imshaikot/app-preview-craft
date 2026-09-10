@@ -1,0 +1,10 @@
+.DS_Store
+node_modules/
+out/
+.app-preview-craft/uploads/
+skills/app-preview-craft/examples/showcase/
+
+# Local Claude Code config. Leading slash on purpose: an unanchored pattern would
+# also match names inside skills/app-preview-craft/, which ships.
+/.claude/
+/CLAUDE.md
