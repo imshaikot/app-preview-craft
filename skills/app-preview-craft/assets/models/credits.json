@@ -1,0 +1,72 @@
+[
+  {
+    "id": "iphone-17-pro",
+    "title": "iPhone 17 Pro",
+    "author": "Ranguel",
+    "authorUrl": "https://sketchfab.com/Ranguel",
+    "source": "https://sketchfab.com/3d-models/iphone-17-pro-4541aa8a28324b33a2baaf81d263aaec",
+    "license": "CC-BY-4.0",
+    "fileExtras": {
+      "author": "Ranguel (https://sketchfab.com/Ranguel)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/iphone-17-pro-4541aa8a28324b33a2baaf81d263aaec",
+      "title": "iPhone 17 Pro"
+    }
+  },
+  {
+    "id": "iphone-17-pro-max",
+    "title": "iPhone 17 Pro Max",
+    "author": "MajdyModels",
+    "authorUrl": "https://sketchfab.com/MG990",
+    "source": "https://sketchfab.com/3d-models/iphone-17-pro-max-87fc1df741384124a8ce0226d2b2058d",
+    "license": "CC-BY-4.0",
+    "fileExtras": {
+      "author": "MajdyModels (https://sketchfab.com/MG990)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/iphone-17-pro-max-87fc1df741384124a8ce0226d2b2058d",
+      "title": "iPhone 17 Pro Max"
+    }
+  },
+  {
+    "id": "iphone-12-pro",
+    "title": "iPhone 12 Pro",
+    "author": "DatSketch",
+    "authorUrl": "https://sketchfab.com/DatSketch",
+    "source": "https://sketchfab.com/3d-models/iphone-12-pro-05dfc991665e45c68c8b7062136c0c6e",
+    "license": "CC-BY-4.0",
+    "fileExtras": {
+      "author": "DatSketch (https://sketchfab.com/DatSketch)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/iphone-12-pro-05dfc991665e45c68c8b7062136c0c6e",
+      "title": "iPhone 12 Pro"
+    }
+  },
+  {
+    "id": "galaxy-s21-ultra",
+    "title": "Samsung Galaxy S21 Ultra",
+    "author": "DatSketch",
+    "authorUrl": "https://sketchfab.com/DatSketch",
+    "source": "https://sketchfab.com/3d-models/samsung-galaxy-s21-ultra-cd962832be7744efb6b37fe0ee2027e7",
+    "license": "CC-BY-4.0",
+    "fileExtras": {
+      "author": "DatSketch (https://sketchfab.com/DatSketch)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/samsung-galaxy-s21-ultra-cd962832be7744efb6b37fe0ee2027e7",
+      "title": "Samsung Galaxy S21 Ultra"
+    }
+  },
+  {
+    "id": "macbook-pro-16",
+    "title": "MacBook Pro M3 16 inch 2024",
+    "author": "jackbaeten",
+    "authorUrl": "https://sketchfab.com/jackbaeten",
+    "source": "https://sketchfab.com/3d-models/macbook-pro-m3-16-inch-2024-8e34fc2b303144f78490007d91ff57c4",
+    "license": "CC-BY-4.0",
+    "fileExtras": {
+      "author": "jackbaeten (https://sketchfab.com/jackbaeten)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/macbook-pro-m3-16-inch-2024-8e34fc2b303144f78490007d91ff57c4",
+      "title": "macbook pro M3 16 inch 2024"
+    }
+  }
+]
