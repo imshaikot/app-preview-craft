@@ -1,0 +1,137 @@
+// App Store screenshot themes, each modelled on the visual language of a
+// popular app category. They borrow a mood, never a brand: no logos, names or
+// artwork from the apps listed in `inspiredBy`.
+//
+// Themes carry visual decor only. Content decor (ratings, stats, notification
+// cards) belongs to a project's slides, where the copy is real.
+
+export default {
+  stride: {
+    id: 'stride',
+    name: 'Stride',
+    appCategory: 'Health & Fitness',
+    inspiredBy: 'Strava, Nike Run Club — hot orange energy, condensed all-caps, motion stripes',
+    blurb: 'Loud, fast, athletic. Condensed caps over an orange-to-amber field with speed stripes and an angled phone.',
+    layout: 'tilt',
+    palette: { bg: '#ff4b1f', bg2: '#ff6a1a', bg3: '#ffae1a', ink: '#ffffff', sub: 'rgba(255,255,255,0.88)', accent: '#141414', accent2: '#fff2e0', surface: 'rgba(20,20,20,0.85)' },
+    type: { display: 'big-shoulders', body: 'inter', weight: 900, bodyWeight: 550, case: 'upper', tracking: 0, leading: 0.88, size: 1.45, highlight: 'pill' },
+    text: { align: 'left', width: 0.84 },
+    background: { kind: 'gradient', angle: 165, pattern: 'stripes', patternOpacity: 0.09, patternScale: 1.6, grain: 0.05, vignette: 0.12 },
+    device: { model: 'iphone-17-pro', x: 0.58, y: 0.67, size: 0.74, pose: [6, -24, 9], glare: 0.55 },
+    screen: { cleanStatusBar: true },
+    scene: { key: { dir: [-0.8, 0.7, 1], intensity: 2.4 }, wall: { depth: 0.09, opacity: 0.34 } },
+    decor: [],
+  },
+
+  ledger: {
+    id: 'ledger',
+    name: 'Ledger',
+    appCategory: 'Finance',
+    inspiredBy: 'Revolut, Monzo, Robinhood — midnight gradients, mint accents, glossy chrome',
+    blurb: 'Premium fintech. Midnight mesh, a faint grid, mint-to-cyan gradient words and floating chrome orbs.',
+    layout: 'hero-top',
+    palette: { bg: '#070a1a', bg2: '#1b1f5e', bg3: '#3a1f6e', ink: '#f5f7ff', sub: 'rgba(225,230,255,0.72)', accent: '#3ef0b0', accent2: '#39c6ff', surface: 'rgba(255,255,255,0.07)' },
+    type: { display: 'sora', body: 'inter', weight: 600, case: 'none', tracking: -0.035, leading: 1.02, size: 1.02, highlight: 'gradient' },
+    background: { kind: 'mesh', pattern: 'grid', patternOpacity: 0.05, patternScale: 1.2, grain: 0.05, vignette: 0.35, seed: 3 },
+    device: { model: 'iphone-17-pro-max', y: 0.66, size: 0.72, pose: [2, -12, 0], finish: '#2d3040', glare: 0.7 },
+    screen: { cleanStatusBar: true },
+    scene: {
+      exposure: 1.05,
+      rims: [
+        { color: '#7a5cff', intensity: 3, dir: [1, 0.3, -0.6] },
+        { color: '#3ef0b0', intensity: 2, dir: [-1, -0.2, -0.4] },
+      ],
+      wall: { depth: 0.1, opacity: 0.45 },
+    },
+    decor: [{ kind: 'orbs', count: 3, finish: 'chrome', size: 0.1, seed: 4, colors: ['#9aa3ff', '#3ef0b0', '#ffffff'] }],
+  },
+
+  serene: {
+    id: 'serene',
+    name: 'Serene',
+    appCategory: 'Health & Mindfulness',
+    inspiredBy: 'Calm, Headspace — soft skies, pastel haze, gentle serif italics',
+    blurb: 'Quiet and airy. Pastel aurora, an italic serif accent, and a frameless screen floating on a soft blob.',
+    layout: 'hero-top',
+    palette: { bg: '#cfe1f6', bg2: '#f6dbe8', bg3: '#fff1da', ink: '#1f2a44', sub: 'rgba(31,42,68,0.68)', accent: '#5b6fd6', accent2: '#f19bc3', surface: 'rgba(255,255,255,0.6)' },
+    type: { display: 'fraunces', body: 'manrope', weight: 420, bodyWeight: 500, tracking: -0.02, leading: 1.04, size: 1.08, highlight: 'italic', italicFont: 'fraunces' },
+    background: { kind: 'aurora', angle: 170, grain: 0.06, blend: 'normal', intensity: 0.55 },
+    device: { mode: 'frameless', y: 0.655, size: 0.66, corner: 0.085, shadow: 0.18 },
+    screen: { cleanStatusBar: true },
+    decor: [{ kind: 'blob', x: 0.5, y: 0.66, size: 1.02, color: '#ffffff', opacity: 0.55, rotate: 20, animate: 'none' }],
+  },
+
+  canvas: {
+    id: 'canvas',
+    name: 'Canvas',
+    appCategory: 'Productivity',
+    inspiredBy: 'Notion, Things, Linear — warm paper, ink-black type, one blue accent, notebook grid',
+    blurb: 'Editorial minimalism. Off-white paper, a notebook grid, a big serif headline and a crisp flat phone.',
+    layout: 'hero-top',
+    palette: { bg: '#f7f5f0', bg2: '#efece4', bg3: '#e6e2d8', ink: '#161616', sub: 'rgba(22,22,22,0.62)', accent: '#2f6fed', accent2: '#f2c94c', surface: '#ffffff' },
+    type: { display: 'instrument-serif', body: 'inter', weight: 400, bodyWeight: 450, tracking: -0.02, leading: 0.98, size: 1.3, highlight: 'underline' },
+    background: { kind: 'paper', pattern: 'grid', patternColor: '#161616', patternOpacity: 0.06, patternScale: 1.1, patternMask: false, grain: 0 },
+    device: { mode: 'flat', flat: 'phone', y: 0.7, size: 0.74, frame: '#161616', edge: '#3a3a3a', shadow: 0.16 },
+    decor: [],
+  },
+
+  sizzle: {
+    id: 'sizzle',
+    name: 'Sizzle',
+    appCategory: 'Food & Drink',
+    inspiredBy: 'DoorDash, Uber Eats, Deliveroo — sunny yellow, tomato red, playful rounded shapes',
+    blurb: 'Appetite in a frame. Sunshine yellow with polka dots, red marker highlights, big friendly type and a tilted phone.',
+    layout: 'tilt',
+    palette: { bg: '#ffd43b', bg2: '#ffc02e', bg3: '#ff8a1f', ink: '#1b1b1b', sub: 'rgba(27,27,27,0.72)', accent: '#ff3b30', accent2: '#ffffff', surface: '#ffffff' },
+    type: { display: 'bricolage', body: 'nunito', weight: 800, bodyWeight: 650, tracking: -0.035, leading: 0.98, size: 1.2, highlight: 'marker' },
+    text: { align: 'left' },
+    background: {
+      kind: 'solid',
+      pattern: 'dots',
+      patternColor: '#ffffff',
+      patternOpacity: 0.35,
+      patternScale: 1.4,
+      grain: 0.03,
+      shapes: [
+        { kind: 'circle', x: 1.02, y: 0.34, size: 0.5, color: '#ff3b30' },
+        { kind: 'ring', x: -0.04, y: 0.86, size: 0.46, color: '#ffffff', stroke: 0.12, opacity: 0.9 },
+      ],
+    },
+    device: { model: 'iphone-17-pro', x: 0.55, y: 0.67, size: 0.73, pose: [4, 20, -8], finish: '#f4efe6' },
+    screen: { cleanStatusBar: true },
+    scene: { key: { dir: [0.6, 0.8, 1], intensity: 2.2 }, wall: { depth: 0.07, opacity: 0.28 } },
+    decor: [{ kind: 'sparkles', count: 6, colors: ['#ffffff', '#ff3b30'], area: [0.05, 0.25, 0.95, 0.95], seed: 9 }],
+  },
+
+  wander: {
+    id: 'wander',
+    name: 'Wander',
+    appCategory: 'Travel',
+    inspiredBy: 'Airbnb, Hopper, Booking — golden-hour gradients, a retro sun, warm serif',
+    blurb: 'Golden hour. A striped retro sun on a dusk gradient that runs continuously across the whole set.',
+    layout: 'hero-top',
+    palette: { bg: '#1c2451', bg2: '#8a2e62', bg3: '#ff8a5c', ink: '#fff7ee', sub: 'rgba(255,247,238,0.78)', accent: '#ffd166', accent2: '#ff5d73', surface: 'rgba(255,255,255,0.12)' },
+    type: { display: 'dm-serif', body: 'jakarta', weight: 400, bodyWeight: 500, tracking: -0.015, leading: 1.02, size: 1.2, highlight: 'italic', italicFont: 'dm-serif' },
+    background: {
+      kind: 'sunset',
+      panorama: true,
+      sun: 0.34,
+      sunX: 0.5,
+      sunY: 0.5,
+      grain: 0.06,
+      shapes: [
+        { kind: 'circle', x: 0.83, y: 0.09, size: 0.07, color: '#fff7ee', opacity: 0.9, repeat: true },
+        { kind: 'circle', x: 0.12, y: 0.31, size: 0.012, color: '#fff7ee', opacity: 0.8, repeat: true },
+        { kind: 'circle', x: 0.9, y: 0.36, size: 0.008, color: '#fff7ee', opacity: 0.7, repeat: true },
+        { kind: 'circle', x: 0.31, y: 0.05, size: 0.01, color: '#fff7ee', opacity: 0.7, repeat: true },
+        { kind: 'circle', x: 0.52, y: 0.38, size: 0.009, color: '#fff7ee', opacity: 0.6, repeat: true },
+        { kind: 'circle', x: 0.68, y: 0.26, size: 0.011, color: '#fff7ee', opacity: 0.6, repeat: true },
+        { kind: 'circle', x: 0.42, y: 0.2, size: 0.4, color: '#ff8a5c', opacity: 0.35, blur: 8 },
+      ],
+    },
+    decor: [{ kind: 'sparkles', count: 5, colors: ['#ffd166', '#fff7ee'], area: [0.05, 0.02, 0.95, 0.35], scale: 0.7, seed: 4 }],
+    device: { model: 'iphone-17-pro-max', y: 0.66, size: 0.72, pose: [0, -8, 0], glare: 0.6, finish: '#e9d8c6' },
+    screen: { cleanStatusBar: true },
+    scene: { key: { color: '#ffe3c4', intensity: 2.2 }, rims: [{ color: '#ff5d73', intensity: 2.5, dir: [1, 0.2, -0.5] }], wall: { depth: 0.08, opacity: 0.3 } },
+  },
+}
