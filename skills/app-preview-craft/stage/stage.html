@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>app-preview-craft stage</title>
+<link rel="icon" href="data:,">
+<script type="importmap">
+{ "imports": { "three": "/vendor/three/build/three.module.js", "three/addons/": "/vendor/three/examples/jsm/" } }
+</script>
+<link rel="stylesheet" href="./stage.css">
+</head>
+<body>
+<div id="stage">
+  <div id="bg" class="layer"></div>
+  <div id="back" class="layer"></div>
+  <canvas id="gl"></canvas>
+  <div id="mid" class="layer"></div>
+  <div id="front" class="layer"></div>
+</div>
+<script type="module" src="./engine.js"></script>
+</body>
+</html>

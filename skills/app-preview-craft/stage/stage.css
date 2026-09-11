@@ -1,0 +1,111 @@
+/* Stage page. Everything is absolutely positioned in page pixels. */
+html, body { margin: 0; padding: 0; overflow: hidden; }
+body { -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
+#stage { position: relative; overflow: hidden; isolation: isolate; }
+.layer, #gl { position: absolute; inset: 0; }
+#gl { width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+#bg { z-index: 0; overflow: hidden; }
+#back { z-index: 1; overflow: hidden; }
+#mid { z-index: 3; }
+#front { z-index: 4; pointer-events: none; }
+#front [contenteditable] { pointer-events: auto; }
+
+/* backgrounds */
+.bg-root { position: absolute; left: 0; top: 0; }
+.bg-fill { position: absolute; inset: 0; }
+.bg-orb, .bg-sun, .bg-shape { position: absolute; left: 0; top: 0; }
+.bg-orb { border-radius: 50%; will-change: transform; }
+.bg-sun { border-radius: 50%; }
+.bg-shape { border-style: solid; box-sizing: border-box; }
+.bg-synth-floor { position: absolute; left: -50%; right: -50%; overflow: hidden; }
+.bg-synth-grid { position: absolute; inset: -100% 0 0 0; transform: rotateX(62deg); transform-origin: 50% 100%; }
+
+/* text */
+.text-block { position: absolute; display: flex; flex-direction: column; box-sizing: border-box; filter: opacity(var(--caption-opacity, 1)); }
+.text-block.bookend { filter: none; }
+.text-block > div { width: 100%; overflow-wrap: break-word; text-wrap: balance; }
+.text-block .tb-subtitle { text-wrap: pretty; }
+.text-block .w { display: inline-block; white-space: pre; }
+.text-block [contenteditable] { outline: none; border-radius: 6px; cursor: text; min-height: 1em; }
+.text-block [contenteditable]:hover { box-shadow: 0 0 0 3px rgba(124,156,255,.45); }
+.text-block [contenteditable]:focus { box-shadow: 0 0 0 4px rgba(124,156,255,.9); background: rgba(0,0,0,.08); }
+/* Empty editable fields take no space (the studio must match the export);
+   their placeholder shows only while the block is hovered. */
+.text-block [contenteditable]:empty:not(:focus) { height: 0; min-height: 0; margin: 0 !important; position: relative; overflow: visible; }
+.text-block [contenteditable]:empty:not(:focus)::before { content: attr(data-placeholder); position: absolute; left: 0; right: 0; bottom: 0; font-size: 55%; opacity: 0; white-space: nowrap; transition: opacity .15s; }
+.text-block [data-field=subtitle]:empty:not(:focus)::before { top: 0; bottom: auto; }
+.text-block:hover [contenteditable]:empty:not(:focus)::before { opacity: .45; }
+.text-block [contenteditable]:focus:empty::before { content: attr(data-placeholder); opacity: .35; }
+.text-block > div:empty:not([contenteditable]) { display: none; }
+
+/* *highlight* styles (also used by bento) */
+.hl { color: var(--accent); }
+.hl-color .hl { color: var(--accent); }
+.hl-marker .hl { color: inherit; background: linear-gradient(transparent 58%, var(--accent) 58%, var(--accent) 92%, transparent 92%); }
+.hl-marker .hl-l { padding-left: .08em; margin-left: -.04em; }
+.hl-marker .hl-r { padding-right: .08em; margin-right: -.04em; }
+.hl-gradient .hl, .hl-gradient .hl .w { background: linear-gradient(100deg, var(--accent), var(--accent2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hl-underline .hl { color: inherit; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: .09em; text-underline-offset: .12em; }
+.hl-italic .hl { font-family: var(--hl-font, inherit); font-style: italic; color: var(--accent); font-weight: 400; }
+.hl-pill .hl { color: var(--bg); background: var(--accent); padding: .04em 0; }
+.hl-pill .hl-l { border-top-left-radius: .22em; border-bottom-left-radius: .22em; padding-left: .14em; }
+.hl-pill .hl-r { border-top-right-radius: .22em; border-bottom-right-radius: .22em; padding-right: .14em; }
+.hl-pill .tb-title { line-height: 1.16 !important; }
+.hl-pill .tb-title .w { margin: .03em 0; }
+.hl-outline .hl, .hl-outline .hl .w { color: transparent; -webkit-text-stroke: .025em var(--accent); }
+.hl-none .hl { color: inherit; }
+
+.big-word { position: absolute; left: 0; right: 0; text-align: center; line-height: .86; white-space: nowrap; letter-spacing: -.03em; }
+
+/* flat devices */
+.flat-device { position: absolute; box-sizing: border-box; transform-origin: 50% 50%; will-change: transform; }
+.fd-body { position: absolute; inset: 0; border-radius: var(--r); background: var(--frame);
+  box-shadow: inset 0 0 0 calc(var(--w) * .006) var(--edge), inset 0 0 0 calc(var(--w) * .014) var(--frame), 0 calc(var(--w) * .06) calc(var(--w) * .16) var(--shadow, rgba(0,0,0,.35)); }
+.flat-device.no-shadow .fd-body { box-shadow: inset 0 0 0 calc(var(--w) * .006) var(--edge), inset 0 0 0 calc(var(--w) * .014) var(--frame); }
+.fd-screen { position: absolute; left: var(--bz); right: var(--bz); top: calc(var(--bz) + var(--bar)); bottom: var(--bz); overflow: hidden; border-radius: calc(var(--r) - var(--bz)); background: #000; }
+.fd-canvas { width: 100%; height: 100%; display: block; }
+.fd-island { position: absolute; top: calc(var(--bz) + var(--w) * .03); left: 50%; width: 30%; height: calc(var(--w) * .085); transform: translateX(-50%); background: #000; border-radius: 999px; }
+.fd-punch { position: absolute; top: calc(var(--bz) + var(--w) * .03); left: 50%; width: calc(var(--w) * .04); height: calc(var(--w) * .04); transform: translateX(-50%); background: #000; border-radius: 50%; }
+.fd-frameless .fd-body { background: transparent; box-shadow: 0 calc(var(--w) * .05) calc(var(--w) * .14) var(--shadow, rgba(0,0,0,.35)); }
+.fd-frameless.no-shadow .fd-body { box-shadow: none; }
+.fd-frameless .fd-screen { border-radius: var(--r); outline: var(--border, none); box-shadow: var(--glow, none); }
+.fd-browser .fd-body { background: var(--frame); }
+.fd-bar { position: absolute; left: 0; right: 0; top: 0; height: var(--bar); display: flex; align-items: center; gap: calc(var(--bar) * .18); padding-left: calc(var(--bar) * .4); box-sizing: border-box; }
+.fd-bar i { width: calc(var(--bar) * .24); height: calc(var(--bar) * .24); border-radius: 50%; background: var(--edge); }
+.fd-bar i:nth-child(1) { background: #ff5f57; } .fd-bar i:nth-child(2) { background: #febc2e; } .fd-bar i:nth-child(3) { background: #28c840; }
+.fd-bar b { flex: 1; height: calc(var(--bar) * .46); margin: 0 18% 0 8%; border-radius: 999px; background: rgba(255,255,255,.08); }
+.fd-browser .fd-screen { border-radius: 0 0 var(--r) var(--r); }
+
+/* decor */
+.decor { position: absolute; transform: translate(-50%, -50%); display: flex; align-items: center; white-space: nowrap; box-sizing: border-box; }
+.d-badge { border-radius: 999px; font-weight: 600; }
+.d-rating { flex-direction: column; }
+.d-stars { display: flex; gap: .12em; }
+.d-score b { font-size: 1.3em; }
+.d-score span { opacity: .75; }
+.d-laurels > svg { flex: none; }
+.d-laurel-text { display: flex; flex-direction: column; align-items: center; text-align: center; line-height: 1.1; }
+.d-laurel-text small { text-transform: uppercase; letter-spacing: .14em; opacity: .75; }
+.d-chips { flex-wrap: wrap; justify-content: center; white-space: normal; }
+.d-chip { display: inline-flex; align-items: center; gap: .4em; border-radius: 999px; font-weight: 600; white-space: nowrap; }
+.d-notif { align-items: center; white-space: normal; }
+.d-stat { flex-direction: column; align-items: flex-start; }
+.d-store { display: flex; align-items: center; }
+.d-callout { overflow: hidden; }
+.d-callout canvas { width: 100%; height: 100%; display: block; }
+.d-field { transform: none !important; }
+.d-bit { position: absolute; }
+.d-arrow { display: block; }
+.d-arrow-note { position: absolute; left: 0; bottom: 100%; white-space: nowrap; transform: rotate(-4deg); }
+.d-blob { z-index: -1; }
+.d-credit { white-space: nowrap; }
+
+/* bento, wall, scrim */
+.bento { position: absolute; display: grid; }
+.bento-tile { position: relative; overflow: hidden; }
+.bento-tile canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.bento-text { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; box-sizing: border-box; }
+.bento-text .w { display: inline-block; white-space: pre; }
+.wall { position: absolute; transform-style: preserve-3d; }
+.wall-card { position: absolute; border-radius: 3vmin; backdrop-filter: blur(3vmin); }
+.scrim { position: absolute; inset: 0; pointer-events: none; }
