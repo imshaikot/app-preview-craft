@@ -375,6 +375,8 @@ export class Device3D {
       clearcoatRoughness: 0.04,
       envMapIntensity: glare,
       toneMapped: false,
+      // Some exports wind the display triangles inward; culling would hide them.
+      side: THREE.DoubleSide,
     })
 
     // Planar UVs across the screen's projection on the normalized XY plane:
