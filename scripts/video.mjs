@@ -91,7 +91,10 @@ export function createEncoder({ out, fps, width, height, format = 'mp4', frameCo
   }
   args.push('-map', '0:v')
   if (audioIndex != null) args.push('-map', `${audioIndex}:a`)
-  const even = `scale=trunc(iw/2)*2:trunc(ih/2)*2`
+  // Chrome's JPEG frames are full-range BT.601. Web players expect limited-range
+  // BT.709, so convert explicitly (and keep dimensions even for 4:2:0).
+  const even = `scale=trunc(iw/2)*2:trunc(ih/2)*2:in_range=pc:out_range=tv:in_color_matrix=bt601:out_color_matrix=bt709,format=yuv420p`
+  const tags = ['-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv']
   switch (format) {
     case 'mov':
       args.push('-c:v', 'prores_ks', '-profile:v', '4444', '-pix_fmt', 'yuva444p10le', '-vendor', 'apl0')
@@ -100,7 +103,7 @@ export function createEncoder({ out, fps, width, height, format = 'mp4', frameCo
       args.push('-c:v', 'libvpx-vp9', '-pix_fmt', 'yuva420p', '-b:v', '0', '-crf', '24', '-row-mt', '1', '-deadline', 'good')
       break
     case 'hevc':
-      args.push('-vf', even, '-c:v', 'libx265', '-pix_fmt', 'yuv420p', '-crf', String(crf + 3), '-preset', 'medium', '-tag:v', 'hvc1', '-movflags', '+faststart')
+      args.push('-vf', even, '-c:v', 'libx265', '-pix_fmt', 'yuv420p', ...tags, '-crf', String(crf + 3), '-preset', 'medium', '-tag:v', 'hvc1', '-movflags', '+faststart')
       break
     case 'gif':
       // GIFs balloon fast: cap at 480px wide and 15fps unless asked otherwise.
@@ -108,7 +111,7 @@ export function createEncoder({ out, fps, width, height, format = 'mp4', frameCo
       break
     case 'mp4':
     default:
-      args.push('-vf', even, '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', String(crf), '-preset', 'medium', '-profile:v', 'high', '-movflags', '+faststart', '-r', String(fps))
+      args.push('-vf', even, '-c:v', 'libx264', '-pix_fmt', 'yuv420p', ...tags, '-crf', String(crf), '-preset', 'medium', '-profile:v', 'high', '-movflags', '+faststart', '-r', String(fps))
   }
   if (audioIndex != null && format !== 'gif') {
     const fadeStart = Math.max(0, (duration ?? 0) - 1)
