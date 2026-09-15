@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>app-preview-craft studio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23c6ff3d'/%3E%3Cstop offset='1' stop-color='%238b7bff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='9' y='3' width='14' height='26' rx='4' fill='url(%23g)'/%3E%3C/svg%3E">
+<script type="importmap">
+{ "imports": { "three": "/vendor/three/build/three.module.js", "three/addons/": "/vendor/three/examples/jsm/" } }
+</script>
+<link rel="stylesheet" href="/fonts/@fontsource-variable/inter/index.css">
+<link rel="stylesheet" href="./studio.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="mark"></span>
+    <b>app-preview-craft</b><span class="dim">studio</span>
+  </div>
+  <nav class="cats" id="cats" role="tablist"></nav>
+  <div class="actions">
+    <label class="size-pick"><span class="dim">Size</span><select id="size"></select></label>
+    <button class="btn ghost" id="btn-panel" title="Customize (C)"><svg viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>Customize</button>
+    <button class="btn primary" id="btn-export" title="Export (E)"><svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Export</button>
+  </div>
+</header>
+
+<main id="viewport">
+  <div id="canvas" class="canvas"></div>
+  <div id="transport" class="transport" hidden>
+    <button class="icon-btn" id="play" title="Play / pause (Space)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+    <div class="scrub"><input type="range" id="scrub" min="0" max="1000" value="0"><div class="beats" id="beats"></div></div>
+    <span class="time" id="time">0.0s</span>
+  </div>
+  <div id="hint" class="hint">Drop screenshots or screen recordings anywhere · click text on the preview to edit it · drag a 3D device to turn it</div>
+  <div id="drop" class="drop" hidden><div><b>Drop to add slides</b><span>PNG, JPG, WebP · MP4, MOV, WebM</span></div></div>
+</main>
+
+<footer class="dock" id="dock">
+  <div class="dock-head">
+    <span id="theme-label">Themes</span>
+    <span class="dim" id="theme-meta"></span>
+    <span class="spacer"></span>
+    <button class="chip" id="shuffle" title="Random theme (R)">Shuffle</button>
+  </div>
+  <div class="themes" id="themes"></div>
+</footer>
+
+<aside class="panel" id="panel" aria-hidden="true">
+  <div class="panel-tabs" role="tablist">
+    <button data-tab="slides" class="on">Slides</button>
+    <button data-tab="style">Style</button>
+    <button data-tab="output">Output</button>
+    <span class="spacer"></span>
+    <button class="icon-btn" id="panel-close" title="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <section class="panel-body" data-pane="slides" id="pane-slides"></section>
+  <section class="panel-body" data-pane="style" id="pane-style" hidden></section>
+  <section class="panel-body" data-pane="output" id="pane-output" hidden></section>
+</aside>
+
+<div class="popover" id="export-pop" hidden></div>
+<div class="toasts" id="toasts"></div>
+<input type="file" id="file" multiple accept="image/*,video/*" hidden>
+<script type="module" src="./studio.js"></script>
+</body>
+</html>
