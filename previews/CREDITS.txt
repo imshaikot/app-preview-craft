@@ -1,0 +1,6 @@
+3D device models used in these renders (CC-BY-4.0 — attribution required when you publish them):
+
+- "MacBook Pro M3 16 inch 2024" by jackbaeten (https://sketchfab.com/jackbaeten), CC-BY-4.0 — https://sketchfab.com/3d-models/macbook-pro-m3-16-inch-2024-8e34fc2b303144f78490007d91ff57c4
+- "iPhone 17 Pro" by Ranguel (https://sketchfab.com/Ranguel), CC-BY-4.0 — https://sketchfab.com/3d-models/iphone-17-pro-4541aa8a28324b33a2baaf81d263aaec
+
+License: https://creativecommons.org/licenses/by/4.0/
