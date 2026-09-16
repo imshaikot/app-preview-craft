@@ -1,0 +1,8 @@
+{
+  "extends": "app-store/ledger",
+  "name": "Tempo brand",
+  "category": "app-store",
+  "palette": { "accent": "#c6ff3d", "accent2": "#36d6ff", "bg2": "#0f2a1a" },
+  "type": { "display": "space-grotesk", "weight": 700 },
+  "device": { "finish": "#1c1f24" }
+}
