@@ -1,0 +1,163 @@
+{
+  "category": "app-store",
+  "theme": "themes/tempo-brand.json",
+  "size": "iphone-6.9",
+  "brand": {
+    "name": "Tempo",
+    "tagline": "Run *your* way",
+    "cta": "Free on iPhone",
+    "url": "tempo.run"
+  },
+  "out": "showcase",
+  "slides": [
+    {
+      "screen": "../assets/samples/tempo-01.png",
+      "desktop": "../assets/samples/tempo-desktop.png",
+      "kicker": "Today",
+      "title": "Every run. *One glance.*",
+      "subtitle": "Rings, streaks and recovery together.",
+      "decor": [
+        {
+          "kind": "notification",
+          "app": "TEMPO",
+          "title": "Goal reached",
+          "body": "You closed all three rings today.",
+          "x": 0.5,
+          "y": 0.355,
+          "width": 0.84
+        }
+      ]
+    },
+    {
+      "screen": "../assets/samples/tempo-02.png",
+      "title": "Maps that *move*",
+      "subtitle": "Live GPS, splits and personal bests.",
+      "theme": {
+        "device": {
+          "pose": [
+            0,
+            22,
+            -4
+          ],
+          "x": 0.6
+        }
+      },
+      "decor": [
+        {
+          "kind": "stat",
+          "label": "Avg pace",
+          "value": "4:52",
+          "trend": "▲ 12s faster",
+          "x": 0.2,
+          "y": 0.62,
+          "rotate": -5,
+          "style": "dark"
+        },
+        {
+          "kind": "arrow",
+          "x": 0.26,
+          "y": 0.47,
+          "w": 0.2,
+          "h": 0.06,
+          "text": "new PR!",
+          "rotate": 20
+        }
+      ]
+    },
+    {
+      "screen": "../assets/samples/tempo-03.png",
+      "title": "Know your *zones*",
+      "subtitle": "Heart-rate insights that explain your week.",
+      "decor": [
+        {
+          "kind": "callout",
+          "rect": [
+            0.03,
+            0.54,
+            0.94,
+            0.21
+          ],
+          "x": 0.5,
+          "y": 0.53,
+          "w": 0.86,
+          "border": "#c6ff3d"
+        }
+      ]
+    },
+    {
+      "screen": "../assets/samples/tempo-04.png",
+      "title": "A plan that *adapts*",
+      "subtitle": "",
+      "theme": {
+        "device": {
+          "y": 0.72
+        }
+      },
+      "decor": [
+        {
+          "kind": "laurels",
+          "top": "Editors' pick",
+          "text": "Best running app",
+          "bottom": "2026",
+          "x": 0.5,
+          "y": 0.235
+        },
+        {
+          "kind": "chips",
+          "items": [
+            "Offline maps",
+            "HR zones",
+            "AI coach"
+          ],
+          "x": 0.5,
+          "y": 0.315
+        }
+      ]
+    },
+    {
+      "screen": "../assets/samples/tempo-05.png",
+      "title": "Run *together*",
+      "subtitle": "",
+      "decor": [
+        {
+          "kind": "rating",
+          "score": "4.9",
+          "label": "from 12K runners",
+          "x": 0.5,
+          "y": 0.2
+        },
+        {
+          "kind": "confetti",
+          "count": 26,
+          "area": [
+            0.03,
+            0.04,
+            0.97,
+            0.3
+          ]
+        }
+      ]
+    }
+  ],
+  "jobs": [
+    {
+      "category": "app-store"
+    },
+    {
+      "category": "social-card",
+      "theme": "launch",
+      "size": "og"
+    },
+    {
+      "category": "device-mockup",
+      "theme": "desk-duo",
+      "size": "mockup-landscape"
+    },
+    {
+      "category": "device-video",
+      "theme": "turntable",
+      "size": "reel",
+      "duration": 9
+    }
+  ]
+}
