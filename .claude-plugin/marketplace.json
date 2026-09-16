@@ -1,0 +1,20 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "app-preview-craft",
+  "description": "App Store screenshots, social cards, 3D device mockups and promo videos from your app's screens",
+  "owner": {
+    "name": "Shahriar",
+    "url": "https://github.com/imshaikot"
+  },
+  "plugins": [
+    {
+      "name": "app-preview-craft",
+      "source": "./",
+      "description": "Turn app screenshots and screen recordings into App Store and Play Store screenshots, social cards, 3D device mockups and promo videos, rendered locally with headless Chrome, three.js and ffmpeg.",
+      "category": "design",
+      "tags": ["app-store", "screenshots", "mockup", "3d", "video", "marketing"],
+      "author": { "name": "Shahriar" },
+      "homepage": "https://github.com/imshaikot/app-preview-craft"
+    }
+  ]
+}
