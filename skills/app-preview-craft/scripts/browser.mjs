@@ -72,6 +72,8 @@ export async function launchBrowser({ headless = true } = {}) {
     '--disable-backgrounding-occluded-windows',
     '--autoplay-policy=no-user-gesture-required',
     '--font-render-hinting=none',
+    // CI runners (Ubuntu 24.04+) block the namespaces Chrome's sandbox needs.
+    ...(process.env.CI ? ['--no-sandbox'] : []),
   ]
   return puppeteer.launch({
     executablePath: findChrome(),

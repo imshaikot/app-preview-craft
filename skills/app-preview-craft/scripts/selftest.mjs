@@ -75,6 +75,19 @@ console.log(`app-preview-craft selftest → ${ROOT}\n`)
 
 /* ── catalog ───────────────────────────────────────────────────────────── */
 
+await check('SKILL.md frontmatter uses only spec keys, a matching name and a short description', () => {
+  const fm = readFileSync(join(SKILL, 'SKILL.md'), 'utf8').split(/^---$/m)[1]
+  // Nested metadata keys are indented, so only top-level keys match.
+  const keys = [...fm.matchAll(/^([\w-]+):/gm)].map((m) => m[1])
+  const allowed = ['name', 'description', 'license', 'compatibility', 'metadata', 'allowed-tools']
+  const bad = keys.filter((k) => !allowed.includes(k))
+  assert(!bad.length, `unexpected frontmatter keys: ${bad}`)
+  assert(/^name: app-preview-craft$/m.test(fm), 'name must match the folder name')
+  const description = fm.match(/^description: "(.*)"$/m)?.[1] ?? ''
+  assert(description.length > 0 && description.length <= 1024, `description is ${description.length} chars`)
+  const compatibility = fm.match(/^compatibility: "(.*)"$/m)?.[1] ?? ''
+  assert(compatibility.length <= 500, `compatibility is ${compatibility.length} chars`)
+})
 await check('every category has at least five themes', () => {
   for (const c of Object.keys(CATEGORIES)) assert(Object.keys(THEMES[c] ?? {}).length >= 5, `${c} has ${Object.keys(THEMES[c] ?? {}).length}`)
 })

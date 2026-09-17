@@ -21,19 +21,6 @@ jobs:
         id: chrome
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - run: npm ci
-      - name: frontmatter within spec limits
-        run: |
-          node -e '
-            const s = require("fs").readFileSync("SKILL.md", "utf8")
-            const fm = s.split("---")[1]
-            const keys = [...fm.matchAll(/^(\w[\w-]*):/gm)].map((m) => m[1])
-            const allowed = ["name", "description", "license", "compatibility", "metadata", "allowed-tools"]
-            // metadata's nested keys are indented, so only top-level keys match above
-            const bad = keys.filter((k) => !allowed.includes(k))
-            if (bad.length) throw new Error("unexpected frontmatter keys: " + bad)
-            const d = fm.match(/^description: "(.*)"$/m)[1]
-            if (d.length > 1024) throw new Error("description is " + d.length + " chars")
-          '
       - run: node scripts/doctor.mjs
         env:
           CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
