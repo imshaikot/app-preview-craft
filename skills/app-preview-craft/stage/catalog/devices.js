@@ -5,8 +5,17 @@
 // `hide` removes cover glass that would otherwise tint the screenshot.
 // `body` lists the materials a theme's `finish` color repaints.
 //
+// `island` is the Dynamic Island, as a rect normalized to the display. The
+// GLBs model the hardware truthfully — a pill cutout and a separate round
+// camera next to it — but iOS merges the two into one black shape, so that is
+// what every real screenshot shows. Device3D paints ISLAND over the model's
+// cutouts to match. Metrics are iPhone points on a 402×874pt display.
+//
 // Credits are required by CC-BY-4.0 and are copied from each GLB's
 // asset.extras by scripts/models.mjs into assets/models/credits.json.
+
+/** Dynamic Island as a fraction of the display: 125×37.3pt, 11pt below the top edge. */
+export const ISLAND = { w: 125 / 402, h: 37.3 / 874, top: 11 / 874 }
 
 export const DEVICES = {
   'iphone-17-pro': {
@@ -18,7 +27,7 @@ export const DEVICES = {
     screen: { material: 'OLED' },
     hide: [{ material: 'Glass' }],
     body: ['Anodized_aluminum'],
-    island: true,
+    island: ISLAND,
     display: [1206, 2622],
     credit: {
       title: 'iPhone 17 Pro',
@@ -37,7 +46,7 @@ export const DEVICES = {
     screen: { material: 'screen.001' },
     hide: [],
     body: ['basecolor.001', 'metalframe.002', 'backpanel.001'],
-    island: true,
+    island: ISLAND,
     display: [1320, 2868],
     credit: {
       title: 'iPhone 17 Pro Max',
@@ -56,7 +65,6 @@ export const DEVICES = {
     screen: { material: 'Wallpaper' },
     hide: [],
     body: ['Body', 'BodyFrame', 'PacificBlue'],
-    island: false,
     display: [1170, 2532],
     credit: {
       title: 'iPhone 12 Pro',
@@ -75,7 +83,6 @@ export const DEVICES = {
     screen: { material: 'Screen' },
     hide: [],
     body: ['Back'],
-    island: false,
     display: [1440, 3200],
     credit: {
       title: 'Samsung Galaxy S21 Ultra',

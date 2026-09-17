@@ -218,6 +218,9 @@ fractions and `style` one of `glass | solid | light | dark | outline`:
   9:41 / full-battery iOS status bar — phone-shaped captures only), `tint` + `tintAmount`,
   `duotone: "#dark,#light"`, `saturate`, `brightness`, `sharpen`, and a pre-blurred backdrop
   for `blur-shot` backgrounds.
+- On iPhone models the **Dynamic Island** is drawn as one merged black pill over the model's
+  pill-and-camera cutouts, matching what iOS shows. Supply screenshots with the island area
+  clear (any normal iOS capture is); `cleanStatusBar` keeps the time and icons either side.
 - A capture taller than the display **scrolls** in videos (`scroll` theme) and shows its top
   in stills (`screen.fit=top`).
 - Recordings are split into frames by ffmpeg at the output frame rate; in videos each

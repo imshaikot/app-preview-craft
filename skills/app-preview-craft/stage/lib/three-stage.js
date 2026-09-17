@@ -411,7 +411,65 @@ export class Device3D {
     this.screens = screens
     this.screenBox = b // normalized screen rect, for callouts that point at the display
 
+    if (def.island) this.buildIsland(def.island, b, inv)
     if (def.lid) this.buildLid(def.lid)
+  }
+
+  /**
+   * One merged black pill over the model's island cutouts. The GLBs model the
+   * hardware truthfully — a pill plus a separate round camera beside it — but
+   * iOS draws the two as a single shape, so that is what a screenshot of the
+   * app actually looks like.
+   *
+   * The pill is a decal, coplanar with the display and biased forward in the
+   * depth buffer only: float it geometrically and an oblique pose sees under
+   * its edge, which uncovers the recess walls as a step along the bottom.
+   */
+  buildIsland({ w, h, top, pad = 0.004 }, box, inv) {
+    const bw = box.max.x - box.min.x
+    const bh = box.max.y - box.min.y
+    // `pad` is slack for models whose cutouts run a shade wider than the spec.
+    const iw = (w + pad) * bw
+    const ih = (h + pad * (bw / bh)) * bh
+    const cx = (box.min.x + box.max.x) / 2
+    const cy = box.max.y - top * bh - ih / 2
+
+    // Sit on the display surface itself, not on whatever else is in the
+    // footprint: the cutouts are recessed behind it, so coplanar covers them.
+    const v = new THREE.Vector3()
+    let z = -Infinity
+    for (const mesh of this.screens) {
+      const pos = mesh.geometry.attributes.position
+      const m = new THREE.Matrix4().multiplyMatrices(inv, mesh.matrixWorld)
+      for (let i = 0; i < pos.count; i++) {
+        v.fromBufferAttribute(pos, i).applyMatrix4(m)
+        if (Math.abs(v.x - cx) <= iw / 2 && Math.abs(v.y - cy) <= ih / 2 && v.z > z) z = v.z
+      }
+    }
+    if (!Number.isFinite(z)) z = 0 // screen has no vertices under the island
+
+    const r = Math.min(iw, ih) / 2
+    const shape = new THREE.Shape()
+    shape.absarc(iw / 2 - r, 0, r, -Math.PI / 2, Math.PI / 2, false)
+    shape.absarc(r - iw / 2, 0, r, Math.PI / 2, (3 * Math.PI) / 2, false)
+    shape.closePath()
+    const mesh = new THREE.Mesh(
+      new THREE.ShapeGeometry(shape, 32),
+      new THREE.MeshBasicMaterial({
+        color: 0x000000,
+        toneMapped: false,
+        polygonOffset: true,
+        polygonOffsetFactor: -4,
+        polygonOffsetUnits: -4,
+      }),
+    )
+    mesh.position.set(cx, cy, z)
+    mesh.renderOrder = 2
+    mesh.castShadow = false
+    mesh.receiveShadow = false
+    // pivot, not group: the island has to turn with the device.
+    this.pivot.add(mesh)
+    this.island = mesh
   }
 
   buildLid({ above, hinge, close }) {
@@ -464,5 +522,7 @@ export class Device3D {
   dispose() {
     this.texture.dispose()
     this.screenMaterial.dispose()
+    this.island?.geometry.dispose()
+    this.island?.material.dispose()
   }
 }
