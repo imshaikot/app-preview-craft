@@ -17,10 +17,10 @@
     "og-image",
     "app-marketing"
   ],
-  "homepage": "https://github.com/imshaikot/app-preview-craft",
+  "homepage": "https://github.com/imshaikot/app-preview-craft-skill",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/imshaikot/app-preview-craft.git",
+    "url": "git+https://github.com/imshaikot/app-preview-craft-skill.git",
     "directory": "skills/app-preview-craft"
   },
   "license": "MIT",
