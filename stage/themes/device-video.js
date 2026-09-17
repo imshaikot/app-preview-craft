@@ -22,7 +22,7 @@ export default {
     palette: { bg: '#030306', bg2: '#10101c', bg3: '#26204a', ink: '#ffffff', sub: 'rgba(255,255,255,0.65)', accent: '#a78bfa', accent2: '#f472b6' },
     type: { display: 'sora', body: 'inter', weight: 600, tracking: -0.04, size: 1.02, highlight: 'gradient' },
     background: { kind: 'radial', cx: 50, cy: 42, grain: 0.06, vignette: 0.55 },
-    device: { model: 'iphone-17-pro-max', y: 0.41, size: 0.6, pose: [12, -12, 10], finish: '#34343c', glare: 0.9 },
+    device: { model: 'iphone-17-pro-max', y: 0.41, size: 0.6, pose: [10, -12, 6], finish: '#34343c', glare: 0.9 },
     scene: {
       env: 0.8,
       ambient: 0.15,
@@ -94,7 +94,7 @@ export default {
     palette: { bg: '#f4efe8', bg2: '#e7dccd', bg3: '#cbb89d', ink: '#1f1a14', sub: 'rgba(31,26,20,0.65)', accent: '#b45309', accent2: '#0f766e' },
     type: { display: 'instrument-serif', body: 'inter', weight: 400, tracking: -0.01, size: 1.2, highlight: 'italic', italicFont: 'instrument-serif' },
     background: { kind: 'radial', cx: 50, cy: 70, grain: 0.05 },
-    device: { x: 0.44, y: 0.57, size: 0.84, phone: { x: 0.83, y: 0.69, size: 0.36, pose: [0, -24, 0] } },
+    device: { x: 0.44, y: 0.57, size: 0.84, phone: { x: 0.83, y: 0.69, size: 0.36, pose: [0, -19, 0] } },
     motion: { duration: 10 },
   },
 
@@ -119,7 +119,7 @@ export default {
     palette: { bg: '#0d0221', bg2: '#2a0845', bg3: '#ff2a6d', ink: '#ffffff', sub: 'rgba(255,255,255,0.75)', accent: '#05d9e8', accent2: '#ff2a6d' },
     type: { display: 'unbounded', body: 'space-grotesk', weight: 800, tracking: -0.03, size: 0.95, highlight: 'outline', shadow: 0.5 },
     background: { kind: 'synth', speed: 1.2 },
-    device: { model: 'galaxy-s21-ultra', y: 0.62, size: 0.62, pose: [8, -22, 6], float: 1.2 },
+    device: { model: 'galaxy-s21-ultra', y: 0.62, size: 0.62, pose: [8, -18, 5], float: 1.2 },
     scene: { rims: [{ color: '#ff2a6d', intensity: 4, dir: [1, 0.3, -0.5] }, { color: '#05d9e8', intensity: 3.5, dir: [-1, 0.2, -0.4] }], wall: { depth: 0.1, opacity: 0.4 } },
     decor: [{ kind: 'shapes', count: 4, shapes: ['knot', 'cube', 'ring', 'pill'], colors: ['#05d9e8', '#ff2a6d', '#ffffff'], size: 0.12, seed: 2 }],
     motion: { duration: 10, intro: true, outro: true },

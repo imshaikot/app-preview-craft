@@ -7,7 +7,7 @@ export default {
     layout: 'showcase',
     palette: { bg: '#f2f3f5', bg2: '#ffffff', bg3: '#dcdfe5', ink: '#111', sub: '#555', accent: '#2563eb', accent2: '#111' },
     background: { kind: 'radial', cx: 50, cy: 40, grain: 0.02 },
-    device: { model: 'iphone-17-pro', size: 0.8, pose: [0, -24, 0], y: 0.5 },
+    device: { model: 'iphone-17-pro', size: 0.8, pose: [0, -19, 0], y: 0.5 },
     scene: { floor: { y: 0.91, mirror: 0, opacity: 0.32 }, env: 1.15, shadow: { blur: 30 } },
   },
 
@@ -18,7 +18,7 @@ export default {
     layout: 'showcase',
     palette: { bg: '#030304', bg2: '#17181d', bg3: '#ffffff', ink: '#fff', sub: '#aaa', accent: '#93c5fd', accent2: '#fff' },
     background: { kind: 'spotlight', cy: 5, beam: 0.2, grain: 0.05, vignette: 0.5 },
-    device: { model: 'iphone-17-pro-max', size: 0.78, pose: [0, -30, 0], finish: '#2f3036', glare: 0.9 },
+    device: { model: 'iphone-17-pro-max', size: 0.78, pose: [0, -20, 0], finish: '#2f3036', glare: 0.9 },
     scene: {
       floor: { y: 0.9, mirror: 0.5, opacity: 0.6 },
       ambient: 0.1,
@@ -48,7 +48,7 @@ export default {
     palette: { bg: '#4f46e5', bg2: '#db2777', bg3: '#f59e0b', ink: '#fff', sub: '#eee', accent: '#fff', accent2: '#fff' },
     text: { position: 'none' },
     background: { kind: 'gradient', angle: 135, grain: 0.06 },
-    device: { model: 'iphone-17-pro', x: 0.5, y: 0.5, size: 0.82, pose: [22, -28, 18], glare: 0.8 },
+    device: { model: 'iphone-17-pro', x: 0.5, y: 0.5, size: 0.82, pose: [12, -20, 6], glare: 0.8 },
     scene: { wall: { depth: 0.22, opacity: 0.35 }, shadow: { blur: 34 }, key: { dir: [-0.9, 0.9, 1] } },
   },
 
@@ -81,7 +81,7 @@ export default {
     palette: { bg: '#dfe7f1', bg2: '#f8fafc', bg3: '#c7d2e0', ink: '#0f172a', sub: '#475569', accent: '#0ea5e9', accent2: '#6366f1' },
     text: { position: 'none' },
     background: { kind: 'radial', cx: 50, cy: 30, grain: 0.02 },
-    device: { x: 0.45, y: 0.5, size: 0.56, pose: [10, -18, 0], phone: { x: 0.79, y: 0.6, size: 0.54, pose: [0, -26, 0] } },
+    device: { x: 0.45, y: 0.5, size: 0.56, pose: [10, -18, 0], phone: { x: 0.79, y: 0.6, size: 0.54, pose: [0, -19, 0] } },
     scene: { wall: { depth: 0.08, opacity: 0.25 }, shadow: { blur: 26 } },
   },
 }

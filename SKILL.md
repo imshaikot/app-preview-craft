@@ -160,7 +160,9 @@ project config `themeOverrides` → CLI shortcuts → `--set` → per-slide `the
   --no-decor --duration --fps --speed --intro --outro`.
 - `--set path=value` reaches **any** theme key (repeatable). `list options` prints the
   documented paths with types and ranges. Values are coerced; JSON works for lists/objects:
-  `--set device.pose=6,-24,9 --set 'decor=[{"kind":"sparkles","count":8}]'`.
+  `--set device.pose=5,-15,4 --set 'decor=[{"kind":"sparkles","count":8}]'`.
+- `device.pose` is `x,y,z` degrees. Themes stay inside roughly ±20° yaw and ±6° roll so the
+  screen still reads at store-thumbnail size; steeper poses work but cost legibility.
 - Colors accept `auto` = the most vivid color in the first screenshot: `--accent auto`.
 - `--device iphone-17-pro | iphone-17-pro-max | iphone-12-pro | galaxy-s21-ultra |
   macbook-pro-16 | flat[:phone|phone-android|tablet|browser] | frameless | none`.

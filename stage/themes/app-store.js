@@ -17,7 +17,7 @@ export default {
     type: { display: 'big-shoulders', body: 'inter', weight: 900, bodyWeight: 550, case: 'upper', tracking: 0, leading: 0.88, size: 1.45, highlight: 'pill' },
     text: { align: 'left', width: 0.84 },
     background: { kind: 'gradient', angle: 165, pattern: 'stripes', patternOpacity: 0.09, patternScale: 1.6, grain: 0.05, vignette: 0.12 },
-    device: { model: 'iphone-17-pro', x: 0.58, y: 0.67, size: 0.74, pose: [6, -24, 9], glare: 0.55 },
+    device: { model: 'iphone-17-pro', x: 0.58, y: 0.67, size: 0.74, pose: [5, -15, 4], glare: 0.55 },
     screen: { cleanStatusBar: true },
     scene: { key: { dir: [-0.8, 0.7, 1], intensity: 2.4 }, wall: { depth: 0.09, opacity: 0.34 } },
     decor: [],
@@ -97,7 +97,7 @@ export default {
         { kind: 'ring', x: -0.04, y: 0.86, size: 0.46, color: '#ffffff', stroke: 0.12, opacity: 0.9 },
       ],
     },
-    device: { model: 'iphone-17-pro', x: 0.55, y: 0.67, size: 0.73, pose: [4, 20, -8], finish: '#f4efe6' },
+    device: { model: 'iphone-17-pro', x: 0.55, y: 0.67, size: 0.73, pose: [3, 15, -4], finish: '#f4efe6' },
     screen: { cleanStatusBar: true },
     scene: { key: { dir: [0.6, 0.8, 1], intensity: 2.2 }, wall: { depth: 0.07, opacity: 0.28 } },
     decor: [{ kind: 'sparkles', count: 6, colors: ['#ffffff', '#ff3b30'], area: [0.05, 0.25, 0.95, 0.95], seed: 9 }],
@@ -163,7 +163,7 @@ export default {
     palette: { bg: '#12062e', bg2: '#3b0f6b', bg3: '#ff2fb2', ink: '#ffffff', sub: 'rgba(255,255,255,0.78)', accent: '#ffe23f', accent2: '#ff2fb2', surface: 'rgba(255,255,255,0.1)' },
     type: { display: 'unbounded', body: 'space-grotesk', weight: 800, tracking: -0.03, leading: 1, size: 0.98, highlight: 'outline', shadow: 0.4 },
     background: { kind: 'synth', grain: 0.04 },
-    device: { model: 'galaxy-s21-ultra', y: 0.67, size: 0.68, pose: [8, -22, 7], glare: 0.6 },
+    device: { model: 'galaxy-s21-ultra', y: 0.67, size: 0.68, pose: [6, -15, 4], glare: 0.6 },
     scene: {
       exposure: 1.05,
       rims: [
