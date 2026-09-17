@@ -252,7 +252,9 @@ try {
     console.log('  - ffmpeg missing: video checks skipped')
   } else {
     await check('device video: requested duration, 30fps, H.264, credits in metadata', async () => {
-      const r = await render({ category: 'device-video', theme: 'turntable', size: ci ? '270x480' : '540x960', duration: ci ? 1.5 : 3 }, 'video')
+      // Two slides, so even the short CI duration leaves each beat above the 0.4s floor.
+      const slides = ['tempo-01.png', 'tempo-02.png'].map((f) => ({ screen: join(SAMPLES, f), title: f }))
+      const r = await render({ category: 'device-video', theme: 'turntable', size: ci ? '270x480' : '540x960', duration: ci ? 1.5 : 3, slides }, 'video')
       const info = ffprobe(r.files[0])
       const v = info.streams.find((s) => s.codec_type === 'video')
       assert(v.codec_name === 'h264' && v.pix_fmt === 'yuv420p', `${v.codec_name}/${v.pix_fmt}`)
