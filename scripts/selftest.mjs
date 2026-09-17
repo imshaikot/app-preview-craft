@@ -22,6 +22,8 @@ import { hasFfmpeg, probe } from './video.mjs'
 
 const args = process.argv.slice(2)
 const quick = args.includes('--quick')
+// CI runners draw WebGL in software: smaller video renders, longer waits.
+const ci = !!process.env.CI
 const only = args.includes('--only') ? args[args.indexOf('--only') + 1] : null
 const ROOT = join(tmpdir(), 'app-preview-craft', `selftest-${process.pid}`)
 const SAMPLES = join(SKILL, 'assets', 'samples')
@@ -136,7 +138,7 @@ try {
   /* ── stills ────────────────────────────────────────────────────────── */
 
   await check('app-store set: one file per slide at the exact size, opaque, plus a sheet and credits', async () => {
-    const r = await render({ category: 'app-store', theme: 'stride', size: 'iphone-6.9' })
+    const r = await render({ category: 'app-store', theme: 'stride', size: 'iphone-6.9', scale: ci ? 1 : undefined })
     const shots = r.files.filter((f) => /\/\d\d-.*\.png$/.test(f))
     assert(shots.length === 5, `expected 5 screenshots, got ${shots.length}`)
     for (const f of shots) {
@@ -230,7 +232,7 @@ try {
         page.waitForFunction((count) => {
           const frames = [...document.querySelectorAll('.frame')]
           return frames.length === count && frames.every((f) => !f.classList.contains('busy')) && frames.every((f) => f.querySelector('iframe').contentWindow.stage?.ready)
-        }, { timeout: 60_000 }, n)
+        }, { timeout: ci ? 600_000 : 60_000 }, n)
       await settled(5)
       const failures = await page.$$eval('.frame .error', (els) => els.map((e) => e.textContent.slice(0, 200)))
       assert(!failures.length, `preview errors: ${failures.join(' | ')}`)
@@ -250,11 +252,11 @@ try {
     console.log('  - ffmpeg missing: video checks skipped')
   } else {
     await check('device video: requested duration, 30fps, H.264, credits in metadata', async () => {
-      const r = await render({ category: 'device-video', theme: 'turntable', size: '540x960', duration: 3 }, 'video')
+      const r = await render({ category: 'device-video', theme: 'turntable', size: ci ? '270x480' : '540x960', duration: ci ? 1.5 : 3 }, 'video')
       const info = ffprobe(r.files[0])
       const v = info.streams.find((s) => s.codec_type === 'video')
       assert(v.codec_name === 'h264' && v.pix_fmt === 'yuv420p', `${v.codec_name}/${v.pix_fmt}`)
-      assert(Math.abs(Number(info.format.duration) - 3) < 0.1, `duration ${info.format.duration}`)
+      assert(Math.abs(Number(info.format.duration) - (ci ? 1.5 : 3)) < 0.1, `duration ${info.format.duration}`)
       assert(v.r_frame_rate === '30/1', v.r_frame_rate)
       assert(/Ranguel/.test(info.format.tags?.comment ?? ''), 'no credit in metadata')
     })
@@ -273,7 +275,7 @@ try {
     })
 
     await check('transparent ProRes 4444 keeps alpha', async () => {
-      const r = await render({ category: 'device-video', theme: 'float', size: '360x640', duration: 1, format: 'mov', transparent: true }, 'alpha')
+      const r = await render({ category: 'device-video', theme: 'float', size: ci ? '180x320' : '360x640', duration: ci ? 0.5 : 1, format: 'mov', transparent: true }, 'alpha')
       const v = ffprobe(r.files[0]).streams.find((s) => s.codec_type === 'video')
       assert(v.codec_name === 'prores' && /yuva/.test(v.pix_fmt), `${v.codec_name}/${v.pix_fmt}`)
     })
