@@ -11,15 +11,19 @@ rendered locally with headless Chrome, three.js and ffmpeg.
 
 ![App Store themes](previews/gallery-app-store.png)
 
+| 3D `trio` video | 3D `desk` video |
+| --- | --- |
+| <img src="previews/trio.gif" width="460" alt="Trio: Galaxy, iPhone and Pro Max rise and fan out"> | <img src="previews/desk.gif" width="460" alt="Desk: MacBook lid opens and a phone slides in"> |
+
 ## Install
 
 | Agent | Install |
 | --- | --- |
-| **Claude Code** (plugin) | `claude plugin marketplace add imshaikot/app-preview-craft`<br>`claude plugin install app-preview-craft@app-preview-craft` |
-| **Claude Code** (skill folder) | `git clone --depth 1 -b skill https://github.com/imshaikot/app-preview-craft.git ~/.claude/skills/app-preview-craft` |
-| **Codex · Cursor · GitHub Copilot · Gemini CLI · OpenCode · Amp · Goose** | `git clone --depth 1 -b skill https://github.com/imshaikot/app-preview-craft.git ~/.agents/skills/app-preview-craft` |
+| **Claude Code** (plugin) | `claude plugin marketplace add imshaikot/app-preview-craft-skill`<br>`claude plugin install app-preview-craft@app-preview-craft` |
+| **Claude Code** (skill folder) | `git clone --depth 1 -b skill https://github.com/imshaikot/app-preview-craft-skill.git ~/.claude/skills/app-preview-craft` |
+| **Codex · Cursor · GitHub Copilot · Gemini CLI · OpenCode · Amp · Goose** | `git clone --depth 1 -b skill https://github.com/imshaikot/app-preview-craft-skill.git ~/.agents/skills/app-preview-craft` |
 
-Inside Claude Code, run `/plugin marketplace add imshaikot/app-preview-craft`, then
+Inside Claude Code, run `/plugin marketplace add imshaikot/app-preview-craft-skill`, then
 `/plugin install app-preview-craft@app-preview-craft` as a separate command. For a single
 project, clone into `.claude/skills/` or `.agents/skills/` instead. Update a clone with
 `git -C <dir> pull --ff-only`.
@@ -47,7 +51,8 @@ health data.
 | --- | --- |
 | ![Social cards](previews/gallery-social-card.png) | ![3D mockups](previews/gallery-device-mockup.png) |
 | ![3D device videos](previews/gallery-device-video.png) | ![Screen videos](previews/gallery-screen-video.png) |
-| <img src="previews/turntable.gif" width="220"> | <img src="previews/desk.gif" width="420"> |
+
+<img src="previews/turntable.gif" width="220" alt="Turntable: the default 3D device video">
 
 ## Use
 

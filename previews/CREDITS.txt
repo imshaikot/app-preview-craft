@@ -2,5 +2,7 @@
 
 - "MacBook Pro M3 16 inch 2024" by jackbaeten (https://sketchfab.com/jackbaeten), CC-BY-4.0 — https://sketchfab.com/3d-models/macbook-pro-m3-16-inch-2024-8e34fc2b303144f78490007d91ff57c4
 - "iPhone 17 Pro" by Ranguel (https://sketchfab.com/Ranguel), CC-BY-4.0 — https://sketchfab.com/3d-models/iphone-17-pro-4541aa8a28324b33a2baaf81d263aaec
+- "iPhone 17 Pro Max" by MajdyModels (https://sketchfab.com/MG990), CC-BY-4.0 — https://sketchfab.com/3d-models/iphone-17-pro-max-87fc1df741384124a8ce0226d2b2058d
+- "Samsung Galaxy S21 Ultra" by DatSketch (https://sketchfab.com/DatSketch), CC-BY-4.0 — https://sketchfab.com/3d-models/samsung-galaxy-s21-ultra-cd962832be7744efb6b37fe0ee2027e7
 
 License: https://creativecommons.org/licenses/by/4.0/
