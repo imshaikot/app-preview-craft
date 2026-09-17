@@ -174,6 +174,54 @@ try {
     assert(data[3] === 0, `corner alpha is ${data[3]}`)
   })
 
+  await check('the Dynamic Island renders as one merged black shape', async () => {
+    // The GLBs model the hardware: a pill cutout and a separate round camera,
+    // both lit dark grey. iOS draws them as one true-black island, so a render
+    // must show a single pure-black run across the top of the display.
+    const r = await render(
+      { category: 'device-mockup', theme: 'studio', size: '800x1000', transparent: true, set: [['device.pose', '0,0,0']] },
+      'island',
+    )
+    const { data, info } = await sharp(r.files[0]).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+    const px = (x, y) => data.subarray((y * info.width + x) * info.channels)
+    let x0 = info.width
+    let y0 = info.height
+    let x1 = -1
+    for (let y = 0; y < info.height; y++) {
+      for (let x = 0; x < info.width; x++) {
+        if (px(x, y)[3] > 128) {
+          if (x < x0) x0 = x
+          if (x > x1) x1 = x
+          if (y < y0) y0 = y
+        }
+      }
+    }
+    const bw = x1 - x0
+    // Widest row of pure black in the top of the device: the island line.
+    let best = []
+    for (let y = y0; y < y0 + Math.round(bw * 0.24); y++) {
+      const runs = []
+      let s = -1
+      for (let x = x0; x <= x1 + 1; x++) {
+        const p = px(x, y)
+        const black = x <= x1 && p[3] > 200 && p[0] < 12 && p[1] < 12 && p[2] < 12
+        if (black && s < 0) s = x
+        else if (!black && s >= 0) {
+          if (x - s > bw * 0.03) runs.push([s, x])
+          s = -1
+        }
+      }
+      const w = (rs) => (rs.length ? Math.max(...rs.map(([a, b]) => b - a)) : 0)
+      if (w(runs) > w(best)) best = runs
+    }
+    assert(best.length === 1, `expected one island run, got ${best.length} (the model's pill and camera are showing through)`)
+    const [a, b] = best[0]
+    const width = (b - a) / bw
+    const center = (a + b) / 2 / bw - x0 / bw
+    assert(width > 0.18 && width < 0.32, `island is ${(width * 100).toFixed(1)}% of the body width`)
+    assert(Math.abs(center - 0.5) < 0.04, `island center is off by ${((center - 0.5) * 100).toFixed(1)}%`)
+  })
+
   await check('custom theme file extends a built-in, and --set wins over it', async () => {
     const dir = join(ROOT, 'custom', '.app-preview-craft', 'themes')
     mkdirSync(dir, { recursive: true })
