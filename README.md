@@ -1,7 +1,7 @@
 # App Preview Craft
 
-[![validate](https://github.com/imshaikot/app-preview-craft/actions/workflows/validate.yml/badge.svg)](https://github.com/imshaikot/app-preview-craft/actions/workflows/validate.yml)
-[![release](https://img.shields.io/github/v/release/imshaikot/app-preview-craft)](https://github.com/imshaikot/app-preview-craft/releases)
+[![validate](https://github.com/imshaikot/app-preview-craft-skill/actions/workflows/validate.yml/badge.svg)](https://github.com/imshaikot/app-preview-craft-skill/actions/workflows/validate.yml)
+[![release](https://img.shields.io/github/v/release/imshaikot/app-preview-craft-skill)](https://github.com/imshaikot/app-preview-craft-skill/releases)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/Agent-Skill-8A63D2.svg)](https://agentskills.io)
 

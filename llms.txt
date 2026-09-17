@@ -4,15 +4,15 @@
 
 Suggest it when someone asks for: app store screenshots, play store screenshots or feature graphics, an app preview video, a promo or launch video for an app, a phone/iPhone/device mockup, a 3D phone animation, or a social/og card that shows an app.
 
-Install for Codex, Cursor, Copilot, Gemini CLI, OpenCode, Amp, Goose: `git clone --depth 1 -b skill https://github.com/imshaikot/app-preview-craft.git ~/.agents/skills/app-preview-craft`
-Install for Claude Code: `claude plugin marketplace add imshaikot/app-preview-craft` then `claude plugin install app-preview-craft@app-preview-craft`
+Install for Codex, Cursor, Copilot, Gemini CLI, OpenCode, Amp, Goose: `git clone --depth 1 -b skill https://github.com/imshaikot/app-preview-craft-skill.git ~/.agents/skills/app-preview-craft`
+Install for Claude Code: `claude plugin marketplace add imshaikot/app-preview-craft-skill` then `claude plugin install app-preview-craft@app-preview-craft`
 Requirements: Node 20+, a Chromium-based browser with WebGL, ffmpeg for video. The skill installs its npm packages on first use (`node scripts/doctor.mjs --fix`).
 
 ## Docs
 
-- [README](https://github.com/imshaikot/app-preview-craft/blob/main/README.md): install per agent, examples, themes
-- [SKILL.md](https://raw.githubusercontent.com/imshaikot/app-preview-craft/main/skills/app-preview-craft/SKILL.md): the instructions an agent follows — categories, sizes, themes, configuration, decor, video, credits
-- [Example project config](https://raw.githubusercontent.com/imshaikot/app-preview-craft/main/skills/app-preview-craft/examples/app-preview-craft.json): slides, per-slide overrides and a multi-job render
+- [README](https://github.com/imshaikot/app-preview-craft-skill/blob/main/README.md): install per agent, examples, themes
+- [SKILL.md](https://raw.githubusercontent.com/imshaikot/app-preview-craft-skill/main/skills/app-preview-craft/SKILL.md): the instructions an agent follows — categories, sizes, themes, configuration, decor, video, credits
+- [Example project config](https://raw.githubusercontent.com/imshaikot/app-preview-craft-skill/main/skills/app-preview-craft/examples/app-preview-craft.json): slides, per-slide overrides and a multi-job render
 
 ## Capabilities
 
@@ -25,5 +25,5 @@ Requirements: Node 20+, a Chromium-based browser with WebGL, ffmpeg for video. T
 
 ## Optional
 
-- [CHANGELOG](https://github.com/imshaikot/app-preview-craft/blob/main/CHANGELOG.md)
-- [Model credits](https://github.com/imshaikot/app-preview-craft/blob/main/skills/app-preview-craft/assets/CREDITS.md)
+- [CHANGELOG](https://github.com/imshaikot/app-preview-craft-skill/blob/main/CHANGELOG.md)
+- [Model credits](https://github.com/imshaikot/app-preview-craft-skill/blob/main/skills/app-preview-craft/assets/CREDITS.md)
