@@ -1,5 +1,24 @@
 # Changelog
 
+## Unreleased
+
+- The **MacBook lid opens on its hinge**. The hinge was given in normalized units but applied
+  in the model's own, so the lid swung about the middle of the laptop and hung in the air
+  above the base until it landed. The selftest now renders the shut laptop and checks it.
+- **Phone and MacBook no longer intersect.** At the same depth the laptop's deck ran through
+  the phone; in `laptop-phone` stills and the `desk` video the phone now stands in front of
+  the deck, its page position and size corrected for the perspective so themes look the same.
+- `desk` is recomposed: both devices stand on `scene.floor`, the laptop clears the headline,
+  the pair fits tall and square pages, and the laptop keeps the last `desktop` screen while
+  later slides change the phone — a `desktop` recording plays on across them.
+- New sample: `tempo-dashboard.mp4`, a live analytics dashboard recorded from
+  `samples/src/tempo.html?s=bi`; the `desk` theme shows it when no screens are given.
+- GIFs use the full 256-colour palette with a firmer ordered dither, which takes most of the
+  banding out of gradients. `--gif-width` still defaults to 480.
+- `gallery` sheets are drawn at 2× (capped at 3400px wide), so thumbnails stay sharp.
+- Studio: a project config that names its theme by file (`"theme": "themes/brand.json"`)
+  loads it, as the CLI already did.
+
 ## 0.2.0 — 2026-09-18
 
 - iPhone renders draw the **Dynamic Island** as one merged black pill. The GLBs model the

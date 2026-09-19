@@ -133,7 +133,7 @@ serif, duotone screen), `duo` (MacBook + phone — pass a `desktop` screen for t
 ### device-video (3D)
 `turntable`, `orbit` (camera arcs), `float` (loopable), `rise` (camera pushes in), `flip`
 (back → front reveal), `trio` (three models fan out), `desk` (MacBook lid opens, phone slides
-in), `spotlight` (360° on a mirror), `synthwave`.
+in beside it; both stand on `scene.floor`), `spotlight` (360° on a mirror), `synthwave`.
 
 ### device-mockup (3D stills)
 `studio`, `noir`, `pedestal`, `levitate`, `lineup` (every phone model), `flatlay`,
@@ -229,7 +229,9 @@ fractions and `style` one of `glass | solid | light | dark | outline`:
   recording's slide lasts as long as the clip (override with `hold`, cut with `trim`). Stills
   use one frame (`at`, default: the middle).
 - Laptop displays letterbox a phone screenshot over a blurred copy unless the slide has a
-  `desktop` screen.
+  `desktop` screen. `desktop` takes a recording too. In the `desk` video the laptop keeps the
+  last `desktop` given while later slides change the phone, so one web capture (or one
+  recording, which plays on across those slides) on the first slide is enough.
 
 ## 7. 3D models and credits — required
 

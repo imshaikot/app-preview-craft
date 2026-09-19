@@ -13,7 +13,7 @@ rendered locally with headless Chrome, three.js and ffmpeg.
 
 | 3D `trio` video | 3D `desk` video |
 | --- | --- |
-| <img src="previews/trio.gif" width="460" alt="Trio: Galaxy, iPhone and Pro Max rise and fan out"> | <img src="previews/desk.gif" width="460" alt="Desk: MacBook lid opens and a phone slides in"> |
+| <img src="previews/trio.gif" width="460" alt="Trio: Galaxy, iPhone and Pro Max rise and fan out"> | <img src="previews/desk.gif" width="460" alt="Desk: MacBook lid opens on a live dashboard and a phone slides in beside it"> |
 
 ## Install
 
