@@ -107,7 +107,9 @@ export function createEncoder({ out, fps, width, height, format = 'mp4', frameCo
       break
     case 'gif':
       // GIFs balloon fast: cap at 480px wide and 15fps unless asked otherwise.
-      args.push('-vf', `fps=${Math.min(fps, gifFps ?? 15)},scale='min(${gifWidth ?? 480},iw)':-2:flags=lanczos,split[a][b];[a]palettegen=max_colors=180:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=4:diff_mode=rectangle`, '-loop', '0')
+      // The full palette and a firm ordered dither keep gradients from banding;
+      // error diffusion looks better still but triples the file.
+      args.push('-vf', `fps=${Math.min(fps, gifFps ?? 15)},scale='min(${gifWidth ?? 480},iw)':-2:flags=lanczos,split[a][b];[a]palettegen=max_colors=256:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=2:diff_mode=rectangle`, '-loop', '0')
       break
     case 'mp4':
     default:
