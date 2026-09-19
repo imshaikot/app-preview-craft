@@ -42,6 +42,9 @@ export const SAMPLE_SLIDES = [
   { screen: 'tempo-04.png', kicker: 'Coach', title: 'A plan that *adapts*', subtitle: 'Daily sessions tuned to your goal race.' },
   { screen: 'tempo-05.png', kicker: 'Club', title: 'Run *together*', subtitle: 'Badges, streaks and a friendly leaderboard.' },
 ]
+// `samples: 'desk'`: the laptop plays the live dashboard recording. Stills keep
+// the PNG, which is sharper than a video frame.
+export const SAMPLE_SLIDES_DESK = SAMPLE_SLIDES.map((s, i) => (i ? s : { ...s, desktop: 'tempo-dashboard.mp4' }))
 // Themes built around long captures ask for these with `samples: 'tall'`.
 export const SAMPLE_SLIDES_TALL = [
   { screen: 'tempo-journal-tall.png', kicker: 'Journal', title: 'Every run, *every note*', subtitle: 'Scroll back through a whole season of training.' },
@@ -165,7 +168,7 @@ function jobOverrides(job) {
 async function prepareSlides(job, theme, work, { fps, isVideo, log }) {
   const dir = job.__dir
   const usingSamples = !job.slides?.length
-  const slides = usingSamples ? (job.sampleCopy ?? (theme.samples === 'tall' ? SAMPLE_SLIDES_TALL : SAMPLE_SLIDES)) : job.slides
+  const slides = usingSamples ? (job.sampleCopy ?? { tall: SAMPLE_SLIDES_TALL, desk: SAMPLE_SLIDES_DESK }[theme.samples] ?? SAMPLE_SLIDES) : job.slides
   if (usingSamples) log('  no screens given: using the bundled "Tempo" sample screens')
   const sampleDir = join(SKILL, 'assets', 'samples')
   const out = []

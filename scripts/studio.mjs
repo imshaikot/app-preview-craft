@@ -16,7 +16,7 @@ import { SCHEMA } from '../stage/catalog/schema.js'
 import { THEMES } from '../stage/themes/index.js'
 import { launchBrowser } from './browser.mjs'
 import { prepareScreen } from './images.mjs'
-import { buildJobs, findConfig, loadConfig, loadCustomThemes, renderJob, SAMPLE_BRAND, SAMPLE_SLIDES, SAMPLE_SLIDES_TALL, TEMP_ROOT } from './render.mjs'
+import { buildJobs, findConfig, loadConfig, loadCustomThemes, renderJob, SAMPLE_BRAND, SAMPLE_SLIDES, SAMPLE_SLIDES_DESK, SAMPLE_SLIDES_TALL, TEMP_ROOT } from './render.mjs'
 import { sendFile, SKILL, startServer } from './server.mjs'
 import { extractFrames, probe, VIDEO_EXT } from './video.mjs'
 
@@ -139,7 +139,7 @@ export async function startStudio({ port = 4747, out, open = true, config: confi
           },
           themes: THEMES,
           custom,
-          samples: { slides: await sampleSlides(SAMPLE_SLIDES), tall: await sampleSlides(SAMPLE_SLIDES_TALL), brand: SAMPLE_BRAND },
+          samples: { slides: await sampleSlides(SAMPLE_SLIDES), tall: await sampleSlides(SAMPLE_SLIDES_TALL), desk: await sampleSlides(SAMPLE_SLIDES_DESK), brand: SAMPLE_BRAND },
           project,
         })
         return true

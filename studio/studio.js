@@ -63,7 +63,7 @@ if (boot.project?.config?.theme && typeof boot.project.config.theme === 'string'
   state.themeByCat[state.category] = boot.project.config.theme
 }
 const usingSamples = () => !state.slides?.length
-const slides = () => (usingSamples() ? (currentThemeRaw().samples === 'tall' ? boot.samples.tall : boot.samples.slides) : state.slides)
+const slides = () => (usingSamples() ? (boot.samples[currentThemeRaw().samples] ?? boot.samples.slides) : state.slides)
 const brand = () => state.brand ?? (usingSamples() ? boot.samples.brand : {})
 const cat = () => catalog.categories[state.category]
 const themeId = () => state.themeByCat[state.category] ?? cat().defaultTheme

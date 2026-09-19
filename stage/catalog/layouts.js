@@ -181,8 +181,9 @@ export const LAYOUTS = {
     needs3d: true,
     defaults: {
       text: { position: 'top' },
-      device: { mode: '3d', x: 0.47, y: 0.58, size: 0.8, pose: [12, -16, 0], phone: { x: 0.8, y: 0.7, size: 0.44, pose: [0, -22, 0] } },
-      scene: { floor: { y: 0.8, mirror: 0, opacity: 0.3 }, wall: null, key: { dir: [-0.3, 1, 0.6] } },
+      // No y: both devices stand on scene.floor.
+      device: { mode: '3d', x: 0.44, size: 0.43, pose: [0, -16, 0], phone: { x: 0.76, size: 0.34, pose: [0, -22, 0] } },
+      scene: { floor: { y: 0.88, mirror: 0, opacity: 0.3 }, wall: null, key: { dir: [-0.3, 1, 0.6] }, camera: { pitch: 7 } },
     },
   },
   spotlight: {

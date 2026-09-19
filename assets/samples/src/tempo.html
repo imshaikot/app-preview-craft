@@ -45,6 +45,14 @@
   .chev { color:var(--dim); font-size:20px; }
   .map { border-radius:22px; overflow:hidden; position:relative; background:#12141c; }
   .desk { width:1512px; height:982px; display:grid; grid-template-columns:240px 1fr; background:var(--bg); }
+  .bi { padding:22px 28px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-content:start; }
+  .bi .card { border-radius:18px; padding:16px 18px; }
+  .bi .head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+  .bi .ttl { font-size:15px; font-weight:700; letter-spacing:-.01em; }
+  .bi .key { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:var(--dim); font-weight:600; margin-left:14px; }
+  .bi .key i { width:10px; height:10px; border-radius:3px; display:inline-block; }
+  .bi .axis { font-size:11px; fill:var(--dim); font-weight:600; }
+  .bi .num { font-variant-numeric:tabular-nums; }
 </style>
 </head>
 <body>
@@ -209,8 +217,127 @@ const screens = {
     </div></div>`,
 }
 
+// The BI dashboard: every value is a function of t, so window.seek(t) can
+// record it frame by frame. Charts build in over ~2.6s, then the data stays live.
+const clamp01 = (x) => Math.min(1, Math.max(0, x))
+const st = (t, a, d) => 1 - (1 - clamp01((t - a) / d)) ** 3
+const rnd = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x) }
+const SEQ = ['#2b3416', '#4c5f1d', '#76942a', '#a3cc34', '#c6ff3d'] // one hue, dark → light
+const side = (on) => `<div style="border-right:1px solid var(--line);padding:26px 18px">
+      <div style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px"><div class="ico" style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#c6ff3d,#36d6ff);color:#111">${svg('run', 20)}</div>Tempo</div>
+      <div style="margin-top:28px;display:flex;flex-direction:column;gap:4px">${[['home', 'Overview'], ['chart', 'Analytics'], ['run', 'Activities'], ['plan', 'Training plan'], ['trophy', 'Challenges'], ['me', 'Club']].map(([i, l]) => `<div style="display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;font-weight:600;${l === on ? 'background:var(--card2);color:#c6ff3d' : 'color:var(--dim)'}">${svg(i, 20)}${l}</div>`).join('')}</div>
+    </div>`
+
+function biTrend(t) {
+  const w = 770, h = 300, n = 26, padL = 34, padB = 22
+  const X = (i) => padL + (i / (n - 1)) * (w - padL - 6)
+  const Y = (v) => (h - padB) - (v / 80) * (h - padB - 8)
+  const live = 3.2 * Math.sin(t * 1.9) + 1.6 * Math.sin(t * 4.3)
+  const now = Array.from({ length: n }, (_, i) => 22 + i * 1.75 + 9 * Math.sin(i * 0.9) + 7 * rnd(i) + (i === n - 1 ? live : 0))
+  const last = Array.from({ length: n }, (_, i) => 18 + i * 1.1 + 7 * Math.sin(i * 0.7 + 1) + 6 * rnd(i + 40))
+  const path = (a) => a.map((v, i) => `${i ? 'L' : 'M'}${X(i).toFixed(1)} ${Y(v).toFixed(1)}`).join(' ')
+  const p = st(t, 0.5, 1.9)
+  // A reading glides along the line once it is drawn, the way a hover would.
+  const hover = clamp01((t - 3.4) / 5.2)
+  const hi = Math.round((0.18 + 0.74 * (0.5 - 0.5 * Math.cos(hover * Math.PI))) * (n - 1))
+  const tipOn = clamp01((t - 3.2) / 0.4) * clamp01((9.2 - t) / 0.4)
+  const tx = X(hi) > w * 0.55 ? X(hi) - 150 : X(hi) + 12
+  const pulse = (t * 1.2) % 1
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" style="display:block">
+    <defs><linearGradient id="bia" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#c6ff3d" stop-opacity=".28"/><stop offset="1" stop-color="#c6ff3d" stop-opacity="0"/></linearGradient>
+    <clipPath id="bic"><rect x="0" y="0" width="${padL + p * (w - padL)}" height="${h}"/></clipPath></defs>
+    ${[0, 20, 40, 60, 80].map((v) => `<line x1="${padL}" x2="${w}" y1="${Y(v)}" y2="${Y(v)}" stroke="#262631" stroke-width="1"/><text class="axis" x="${padL - 8}" y="${Y(v) + 4}" text-anchor="end">${v}</text>`).join('')}
+    ${[0, 5, 10, 15, 20, 25].map((i) => `<text class="axis" x="${X(i)}" y="${h - 4}" text-anchor="${i === 25 ? 'end' : 'middle'}">W${i + 13}</text>`).join('')}
+    <g clip-path="url(#bic)">
+      <path d="${path(now)} L${X(n - 1)} ${Y(0)} L${X(0)} ${Y(0)}Z" fill="url(#bia)"/>
+      <path d="${path(last)}" fill="none" stroke="#8b7bff" stroke-width="2" stroke-linejoin="round" stroke-dasharray="5 5" opacity=".9"/>
+      <path d="${path(now)}" fill="none" stroke="#c6ff3d" stroke-width="2.5" stroke-linejoin="round"/>
+    </g>
+    <g opacity="${p >= 1 ? 1 : 0}"><circle cx="${X(n - 1)}" cy="${Y(now[n - 1])}" r="${5 + pulse * 11}" fill="#c6ff3d" opacity="${0.35 * (1 - pulse)}"/><circle cx="${X(n - 1)}" cy="${Y(now[n - 1])}" r="5" fill="#c6ff3d" stroke="#16161d" stroke-width="2"/></g>
+    <g opacity="${tipOn}"><line x1="${X(hi)}" x2="${X(hi)}" y1="8" y2="${Y(0)}" stroke="#8b8b99" stroke-width="1" stroke-dasharray="3 3"/>
+      <circle cx="${X(hi)}" cy="${Y(now[hi])}" r="5" fill="#c6ff3d" stroke="#16161d" stroke-width="2"/><circle cx="${X(hi)}" cy="${Y(last[hi])}" r="4.5" fill="#8b7bff" stroke="#16161d" stroke-width="2"/>
+      <g transform="translate(${tx} 12)"><rect width="138" height="62" rx="10" fill="#0b0b0f" stroke="#262631"/><text x="12" y="20" class="axis">Week ${hi + 13}</text>
+        <rect x="12" y="29" width="8" height="8" rx="2" fill="#c6ff3d"/><text x="26" y="37" font-size="12" font-weight="700" fill="#f4f4f7">${now[hi].toFixed(1)} km</text><text x="126" y="37" font-size="11" fill="#8b8b99" text-anchor="end">2026</text>
+        <rect x="12" y="45" width="8" height="8" rx="2" fill="#8b7bff"/><text x="26" y="53" font-size="12" font-weight="700" fill="#f4f4f7">${last[hi].toFixed(1)} km</text><text x="126" y="53" font-size="11" fill="#8b8b99" text-anchor="end">2025</text></g></g>
+  </svg>`
+}
+
+function biDonut(t) {
+  const zones = [['Z1 Recovery', 8], ['Z2 Easy', 26], ['Z3 Tempo', 38], ['Z4 Threshold', 22], ['Z5 Max', 6]]
+  const r = 74, c = 2 * Math.PI * r, p = st(t, 0.9, 1.6)
+  let acc = 0
+  const arcs = zones.map(([, v], i) => {
+    const len = Math.max(0, (v / 100) * c * p - 3) // 3px of surface between segments
+    const a = `<circle r="${r}" cx="100" cy="100" fill="none" stroke="${SEQ[i]}" stroke-width="24" stroke-dasharray="${len} ${c}" stroke-dashoffset="${-acc * c * p}" transform="rotate(-90 100 100)"/>`
+    acc += v / 100
+    return a
+  }).join('')
+  return `<div style="display:flex;align-items:center;gap:14px"><svg viewBox="0 0 200 200" width="212" height="212" style="flex:none;margin:34px 0">${arcs}
+      <text x="100" y="98" text-anchor="middle" font-size="34" font-weight="750" fill="#f4f4f7" letter-spacing="-1">${Math.round(38 * p)}%</text><text x="100" y="120" text-anchor="middle" class="axis">in tempo zone</text></svg>
+    <div style="flex:1;display:flex;flex-direction:column;gap:13px">${zones.map(([l, v], i) => `<div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600"><i style="width:10px;height:10px;border-radius:3px;background:${SEQ[i]}"></i><span style="flex:1;white-space:nowrap">${l}</span><span class="num" style="color:var(--dim)">${Math.round(v * p)}%</span></div>`).join('')}</div></div>`
+}
+
+function biBars(t) {
+  const vals = [412, 388, 455, 431, 520, 764, 690], h = 226, max = 800
+  return `<div style="display:flex;align-items:flex-end;gap:10px;height:${h + 22}px">${vals.map((v, i) => {
+    const p = st(t, 1.2 + i * 0.09, 1.0)
+    const live = i === 3 ? Math.round(6 * (0.5 + 0.5 * Math.sin(t * 1.3))) : 0
+    return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div class="num" style="font-size:11px;font-weight:700;opacity:${i === 3 || i === 5 ? p : 0}">${Math.round((v + live) * p)}</div><div style="width:100%;height:${((v + live) / max) * h * p}px;border-radius:4px 4px 0 0;background:${i === 3 ? '#c6ff3d' : '#c6ff3d55'}"></div><div style="font-size:11px;color:var(--dim);font-weight:600">${['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][i]}</div></div>`
+  }).join('')}</div>`
+}
+
+function biHeat(t) {
+  const weeks = 12, cell = 22, gap = 4
+  let out = ''
+  for (let w = 0; w < weeks; w++) for (let d = 0; d < 7; d++) {
+    const last = w === weeks - 1 && d === 3
+    if (w === weeks - 1 && d > 3) continue
+    const load = clamp01(0.15 + 0.5 * rnd(w * 7 + d + 9) + (d >= 5 ? 0.3 : 0) + w * 0.012)
+    const p = st(t, 1.4 + (w + d) * 0.045, 0.5)
+    const k = last ? 4 : Math.min(4, Math.floor(load * 5))
+    out += `<rect x="${26 + w * (cell + gap)}" y="${d * (cell + gap)}" width="${cell}" height="${cell}" rx="5" fill="${SEQ[k]}" opacity="${p * (last ? 0.6 + 0.4 * Math.sin(t * 5) ** 2 : 1)}"/>`
+  }
+  const days = ['M', '', 'W', '', 'F', '', 'S'].map((l, d) => `<text class="axis" x="0" y="${d * (cell + gap) + 16}">${l}</text>`).join('')
+  return `<svg viewBox="0 0 ${26 + weeks * (cell + gap)} ${7 * (cell + gap)}" width="100%" style="display:block">${days}${out}</svg>
+    <div style="display:flex;align-items:center;gap:5px;margin-top:10px;font-size:11px;color:var(--dim);font-weight:600">Less${SEQ.map((c) => `<i style="width:12px;height:12px;border-radius:3px;background:${c};display:inline-block"></i>`).join('')}More</div>`
+}
+
+function biFeed(t) {
+  const items = [['Priya N.', 'finished Bridge loop', '12.4 km', '#ff4f8b'], ['Diego M.', 'set a 5K record', '19:42', '#36d6ff'], ['Hana K.', 'started Park intervals', 'live', '#8b7bff'], ['Luca B.', 'joined Sunday long run', '18 km', '#ff8a3d'], ['Sam R.', 'finished Riverside tempo', '8.2 km', '#c6ff3d'], ['Mia T.', 'closed all three rings', '100%', '#36d6ff'], ['Noah P.', 'finished Hill repeats', '6.1 km', '#ff4f8b']]
+  const every = 2.1, since = Math.max(0, t - 2.8)
+  const step = Math.floor(since / every), f = st(since % every, 0, 0.55), rowH = 52
+  const rows = Array.from({ length: 6 }, (_, k) => {
+    const [n, what, v, c] = items[(((step - k) % items.length) + items.length) % items.length]
+    const ago = k === 0 ? 'now' : `${k * 2 + (step % 2)}m`
+    return `<div style="position:absolute;left:0;right:0;top:${(k - 1 + f) * rowH}px;height:${rowH}px;display:flex;align-items:center;gap:11px;opacity:${k === 0 ? f : k === 5 ? 1 - f : 1}"><div class="avatar" style="width:32px;height:32px;font-size:13px;background:${c}">${n[0]}</div><div class="grow"><div style="font-size:13.5px;font-weight:650">${n} <span style="color:var(--dim);font-weight:500">${what}</span></div><div class="t2" style="font-size:11.5px">${ago}</div></div><div class="num" style="font-weight:700;font-size:13.5px">${v}</div></div>`
+  }).join('')
+  return `<div style="position:relative;height:${rowH * 5}px;overflow:hidden;opacity:${st(t, 1.6, 0.8)}">${rows}</div>`
+}
+
+screens.bi = (t = 99) => {
+  const tick = Math.max(0, t - 2.6)
+  const kpis = [
+    ['Runners live', Math.round((1284 + Math.floor(tick * 3.1) + Math.round(4 * Math.sin(t * 2.2))) * st(t, 0.2, 1.4)).toLocaleString('en'), '▲', '12.4% vs last Thu', '#c6ff3d', 3],
+    ['Distance today', `${((8412.6 + tick * 4.7) * st(t, 0.3, 1.4)).toLocaleString('en', { maximumFractionDigits: 1, minimumFractionDigits: 1 })} km`, '▲', '8.1%', '#36d6ff', 11],
+    ['Avg pace', `5:${String(Math.round(18 + 2 * Math.sin(t * 0.9))).padStart(2, '0')} /km`, '▼', '6s faster', '#8b7bff', 23],
+    ['Weekly goal', `${Math.round(74 * st(t, 0.5, 1.6))}%`, '▲', '9 pts', '#ff4f8b', 31],
+  ]
+  const pulse = (t * 1.2) % 1
+  return `<div class="desk">${side('Analytics')}
+    <div class="bi">
+      <div style="grid-column:1/4;display:flex;justify-content:space-between;align-items:center"><div><div class="sub">Brooklyn Run Club · Week 38</div><h1 style="margin:2px 0;font-size:28px">Club analytics</h1></div>
+        <div class="row" style="align-items:center"><span class="pill" style="color:var(--ink)"><i style="width:8px;height:8px;border-radius:50%;background:#c6ff3d;box-shadow:0 0 0 ${pulse * 7}px rgba(198,255,61,${0.4 * (1 - pulse)})"></i>Live · updated ${String(Math.floor(tick % 5))}s ago</span><span class="pill">Today</span><span class="pill on">This week</span><span class="pill">Quarter</span></div></div>
+      <div style="grid-column:1/4;display:grid;grid-template-columns:repeat(4,1fr);gap:14px">${kpis.map(([l, v, arrow, d, c, seed]) => `<div class="card" style="display:flex;justify-content:space-between;align-items:flex-end;gap:10px"><div><div class="label">${l}</div><div class="num" style="font-size:27px;font-weight:750;letter-spacing:-.03em;margin-top:4px;white-space:nowrap">${v}</div><div style="font-size:12px;color:var(--dim);font-weight:600;margin-top:3px"><span style="color:#c6ff3d">${arrow}</span> ${d}</div></div><div style="width:96px;flex:none;clip-path:inset(0 ${(1 - st(t, 0.4, 1.6)) * 100}% 0 0)">${sparkline(Array.from({ length: 14 }, (_, i) => i * 0.5 + 4 * rnd(i + seed) + (i === 13 ? Math.sin(t * 2 + seed) : 0)), c, 44, 96)}</div></div>`).join('')}</div>
+      <div class="card" style="grid-column:1/3"><div class="head"><span class="ttl">Club distance per week <span style="color:var(--dim);font-weight:500">· thousand km</span></span><span><span class="key"><i style="background:#c6ff3d"></i>2026</span><span class="key"><i style="background:#8b7bff"></i>2025</span></span></div>${biTrend(t)}</div>
+      <div class="card"><div class="head"><span class="ttl">Time in heart-rate zones</span></div>${biDonut(t)}</div>
+      <div class="card"><div class="head"><span class="ttl">Sessions by day</span><span class="key" style="margin:0"><i style="background:#c6ff3d"></i>Today</span></div>${biBars(t)}</div>
+      <div class="card"><div class="head"><span class="ttl">Training load <span style="color:var(--dim);font-weight:500">· 12 weeks</span></span></div>${biHeat(t)}</div>
+      <div class="card"><div class="head"><span class="ttl">Live activity</span></div>${biFeed(t)}</div>
+    </div></div>`
+}
+
 const wrap = document.createElement('div')
-if (S === 'desk') document.body.innerHTML = screens.desk()
+if (S === 'desk' || S === 'bi') document.body.innerHTML = screens[S]()
 else {
   wrap.className = S === 'tall' ? 'screen tall' : 'screen'
   wrap.innerHTML = S === 'rec' ? screens['1'](0) : screens[S]()
@@ -218,6 +345,7 @@ else {
 }
 // Recording mode: window.seek(t) animates the Today screen filling in.
 window.seek = (t) => {
+  if (S === 'bi') return void (document.body.innerHTML = screens.bi(t))
   const p = Math.min(1, Math.max(0, (t - 0.3) / 2.2))
   const e = 1 - (1 - p) ** 3
   wrap.innerHTML = screens['1'](e)

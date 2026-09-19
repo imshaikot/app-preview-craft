@@ -44,6 +44,19 @@ try {
   }
   await enc.end()
   console.log('  tempo-recording.mp4')
+
+  // The live analytics dashboard, for laptop displays in video themes.
+  const dash = await browser.newPage()
+  await dash.setViewport({ width: 1512, height: 982, deviceScaleFactor: 1.5 })
+  await dash.goto(url('bi'), { waitUntil: 'load' })
+  await dash.waitForFunction('window.ready === true')
+  const wide = createEncoder({ out: join(OUT, 'tempo-dashboard.mp4'), fps, width: 2268, height: 1472, format: 'mp4', crf: 20 })
+  for (let i = 0; i < fps * 10; i++) {
+    await dash.evaluate((t) => window.seek(t), i / fps)
+    await wide.write(await dash.screenshot({ type: 'jpeg', quality: 95, optimizeForSpeed: true }))
+  }
+  await wide.end()
+  console.log('  tempo-dashboard.mp4')
 } finally {
   await browser.close()
   await srv.close()
