@@ -156,6 +156,15 @@ try {
     assert(sd > 12, `screen region is flat (σ=${sd.toFixed(1)}) — texture not showing`)
   })
 
+  await check('the MacBook lid shuts onto its base instead of floating off it', async () => {
+    const r = await render({ category: 'device-video', theme: 'desk', size: '960x540', frames: [0], set: [['text.position', 'none']] }, 'lid')
+    // Shut, the laptop is a slab low on the page; a lid hinged in the wrong place hangs up here.
+    const sd = await detail(r.files[0], [0.1, 0.05, 0.8, 0.45])
+    assert(sd < 6, `something is floating above the closed laptop (σ=${sd.toFixed(1)})`)
+    const slab = await detail(r.files[0], [0.2, 0.6, 0.5, 0.3])
+    assert(slab > 12, `no closed laptop where one should stand (σ=${slab.toFixed(1)})`)
+  })
+
   await check('a slide without a screen renders a blank display instead of failing', async () => {
     const r = await render({ category: 'app-store', theme: 'ledger', size: '440x956', slides: [{ title: 'No *screen* yet' }, { screen: join(SAMPLES, 'tempo-02.png'), title: 'Has one' }], sheet: false }, 'no-screen')
     assert(r.files.length === 2, `expected 2 files, got ${r.files.length}`)
