@@ -104,6 +104,13 @@ export async function startStudio({ port = 4747, out, open = true, config: confi
   }
 
   const custom = await loadCustomThemes([], cwd)
+  // A config may name its theme by file, as the CLI allows: load it and refer to it by id.
+  const themeFile = project?.config.theme
+  if (typeof themeFile === 'string' && /\.(json|mjs|js)$/.test(themeFile)) {
+    const loaded = await loadCustomThemes([themeFile], dirname(project.path))
+    Object.assign(custom, loaded)
+    project.config.theme = Object.keys(loaded).at(-1)
+  }
   let browser = null
   const renders = new Map()
   const prepared = new Map()
