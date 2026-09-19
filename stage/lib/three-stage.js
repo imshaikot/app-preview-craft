@@ -476,13 +476,16 @@ export class Device3D {
     const lid = new THREE.Group()
     const hingeV = new THREE.Vector3(...hinge)
     lid.position.copy(hingeV)
-    this.norm.add(lid)
+    // pivot, not norm: `above` and `hinge` are in normalized units, and norm's
+    // children live in raw model units — hinge there and the lid swings about
+    // the middle of the laptop, lifting clean off the base.
+    this.pivot.add(lid)
     const inner = new THREE.Group()
     inner.position.copy(hingeV).negate()
     lid.add(inner)
     const moving = []
     this.group.updateMatrixWorld(true)
-    const inv = new THREE.Matrix4().copy(this.norm.matrixWorld).invert()
+    const inv = new THREE.Matrix4().copy(this.pivot.matrixWorld).invert()
     this.model.traverse((o) => {
       if (!o.isMesh) return
       const c = new THREE.Box3().setFromObject(o).getCenter(new THREE.Vector3()).applyMatrix4(inv)
