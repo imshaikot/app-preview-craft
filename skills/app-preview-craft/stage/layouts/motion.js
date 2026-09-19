@@ -1,6 +1,6 @@
 // Video layouts. Each is async (ctx) => {duration, update(t)}; update must set
 // every animated property from t alone so frames can render in any order.
-import { bookends, captions, outroFade, paintBeat, screenState, textBox, timeline } from './common.js'
+import { bookends, captions, outroFade, paintBeat, screenState, standInFront, textBox, timeline } from './common.js'
 import { clamp, ease, lerp, span, wobble } from '../lib/ease.js'
 
 const introLen = (ctx) => (ctx.theme.motion.intro ? 1.8 : 0)
@@ -374,20 +374,43 @@ export const MOTION = {
     const { W, H, theme } = ctx
     const d = theme.device
     const cam = theme.scene.camera
-    const tl = timeline(ctx, { intro: Math.max(2.4, introLen(ctx)), outro: outroLen(ctx) })
+    const tl = tlFor(ctx)
     const laptop = await ctx.device({ mode: '3d', model: d.laptop ?? 'macbook-pro-16' })
     const phone = await ctx.device({ mode: '3d' })
     const ph = { ...d, ...d.phone }
+    // Composed on a 16:9 box; a narrower page widens the box past its edges
+    // so the pair still fills the width.
+    const bw = Math.min(W * 1.4, (H * 16) / 9)
+    const bh = (bw * 9) / 16
+    const bx = (x) => W / 2 + (x - 0.5) * bw
+    // On a tall page the floor comes up with the box, or the pair sits in the
+    // bottom corner under half a page of nothing.
+    const themeFloor = (theme.scene.floor?.y ?? 0.8) * H
+    const floor = Math.min(themeFloor, H / 2 + bh * 0.42)
+    if (ctx.three.floor) ctx.three.floor.position.y = themeFloor - floor
+    // The laptop keeps the last desktop capture up while later slides change
+    // the phone, and a desktop recording plays on across those beats.
+    const deskFor = (i) => {
+      for (let k = i; k >= 0; k--) if (ctx.desktopSources[k]) return k
+      return -1
+    }
+    const openAt = tl.intro ? tl.intro - 0.5 : 0.3
     return withBookends(ctx, tl, async (t, { fade }) => {
-      const open = span(t, 0.3, 1.8, ease.inOutCubic)
-      const slide = span(t, 1.6, 1.2, ease.outCubic)
+      const open = span(t, openAt, 1.8, ease.inOutCubic)
+      const slide = span(t, openAt + 1.3, 1.2, ease.outCubic)
       const camP = span(t, 0, tl.total, ease.inOutSine)
+      // Both devices stand on the floor, so the shadows and the hinge read true.
+      const lw = d.size * bw
       laptop.setLid(lerp(0.02, 1, open))
-      laptop.place({ x: d.x * W, y: d.y * H, size: d.size * W, byWidth: true, rx: d.pose[0], ry: d.pose[1], rz: d.pose[2], scale: fade })
-      phone.place({ x: lerp(W * 1.3, ph.x * W, slide), y: ph.y * H, size: ph.size * H, rx: ph.pose[0], ry: ph.pose[1] + (1 - slide) * -50, rz: ph.pose[2], scale: fade })
-      ctx.three.setView({ ...cam, pitch: lerp(16, cam.pitch ?? 4, camP), yaw: lerp(-6, 6, camP), dist: lerp(1.12, cam.dist ?? 0.98, camP) })
+      // Set back by a quarter of its width: the deck, not the hinge, is what reaches the camera.
+      laptop.place({ x: bx(d.x), y: floor - laptop.standHeight(lw) / 2, z: -0.25 * lw, size: lw, rx: d.pose[0], ry: d.pose[1], rz: d.pose[2], scale: fade })
+      const at = standInFront(ctx, laptop, phone, { x: lerp(W * 1.3, bx(ph.x), slide), y: 0, size: ph.size * bh, rx: ph.pose[0], ry: ph.pose[1] + (1 - slide) * -50, rz: ph.pose[2], scale: fade })
+      phone.place({ ...at, y: floor - phone.standHeight(at.size) / 2 })
+      ctx.three.setView({ ...cam, pitch: lerp(12, cam.pitch ?? 7, camP), yaw: lerp(-6, 6, camP), dist: lerp(1.1, cam.dist ?? 1, camP) })
       const beat = tl.at(Math.max(t, tl.intro))
-      laptop.paint(await screenState(ctx, ctx.desktopIndex ?? beat.i, beat.local, beat.len, { desktop: true }))
+      const k = deskFor(beat.i)
+      const on = k < 0 ? beat : { i: k, local: t - tl.beats[k].start, len: tl.beats[k].len }
+      laptop.paint(await screenState(ctx, on.i, on.local, on.len, { desktop: true }))
       await paintBeat(ctx, phone, tl, Math.max(t, tl.intro))
     })
   },
