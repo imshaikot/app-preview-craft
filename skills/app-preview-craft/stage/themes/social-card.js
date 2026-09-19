@@ -86,7 +86,7 @@ export default {
     type: { display: 'manrope', body: 'manrope', weight: 800, tracking: -0.04, leading: 1, size: 0.82, highlight: 'gradient' },
     text: { position: 'top', margin: 0.05 },
     background: { kind: 'gradient', angle: 140, grain: 0.04, pattern: 'grid', patternOpacity: 0.05, vignette: 0.25 },
-    device: { x: 0.45, y: 0.64, size: 0.5, pose: [10, -16, 0], phone: { x: 0.74, y: 0.72, size: 0.46, pose: [0, -19, 0] } },
+    device: { x: 0.43, y: 0.64, size: 0.5, pose: [10, -16, 0], phone: { x: 0.78, y: 0.72, size: 0.46, pose: [0, -19, 0] } },
     scene: { wall: { depth: 0.08, opacity: 0.35 } },
     decor: [],
   },

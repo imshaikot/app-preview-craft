@@ -94,6 +94,27 @@ export function timeline(ctx, { intro = 0, outro = 0, min = 0.4 } = {}) {
   }
 }
 
+/**
+ * Stand a 3D phone in front of a placed laptop. At the same depth the laptop's
+ * deck — most of its length points at the camera — runs straight through the
+ * phone. The phone steps forward until its back clears the deck, and its page
+ * position and size shrink by the perspective ratio, so it still lands where
+ * the theme put it. Returns where the phone ended up.
+ */
+export function standInFront(ctx, laptop, phone, p, gap = 0.015) {
+  phone.place(p)
+  if (!laptop?.depthRange || !phone.depthRange) return p
+  const [deck] = laptop.depthRange()
+  const [, back] = phone.depthRange()
+  if (back > deck) return p
+  const z0 = p.z ?? 0
+  const z = z0 + deck - back + gap * ctx.H
+  const k = (ctx.three.baseDist - z) / (ctx.three.baseDist - z0)
+  const at = { ...p, x: ctx.W / 2 + (p.x - ctx.W / 2) * k, y: ctx.H / 2 + (p.y - ctx.H / 2) * k, z, size: p.size * k }
+  phone.place(at)
+  return at
+}
+
 /** What a display shows for slide i at `local` seconds into its beat. */
 export async function screenState(ctx, i, local = 0, len = 1, { desktop = false } = {}) {
   const n = ctx.sources.length
