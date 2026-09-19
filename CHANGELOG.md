@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.1 — 2026-09-19
 
 - The **MacBook lid opens on its hinge**. The hinge was given in normalized units but applied
   in the model's own, so the lid swung about the middle of the laptop and hung in the air
