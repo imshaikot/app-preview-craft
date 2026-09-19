@@ -81,7 +81,7 @@ export default {
     palette: { bg: '#dfe7f1', bg2: '#f8fafc', bg3: '#c7d2e0', ink: '#0f172a', sub: '#475569', accent: '#0ea5e9', accent2: '#6366f1' },
     text: { position: 'none' },
     background: { kind: 'radial', cx: 50, cy: 30, grain: 0.02 },
-    device: { x: 0.45, y: 0.5, size: 0.56, pose: [10, -18, 0], phone: { x: 0.79, y: 0.6, size: 0.54, pose: [0, -19, 0] } },
+    device: { x: 0.43, y: 0.5, size: 0.56, pose: [10, -18, 0], phone: { x: 0.84, y: 0.6, size: 0.54, pose: [0, -19, 0] } },
     scene: { wall: { depth: 0.08, opacity: 0.25 }, shadow: { blur: 26 } },
   },
 }

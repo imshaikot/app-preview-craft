@@ -1,7 +1,7 @@
 // Still layouts. Each is async (ctx) => update(t); stills call update(0)
 // once, but the functions stay time-aware so a still layout also animates
 // gently when used in the studio's live preview.
-import { addText, headlineSize, screenState, textBox } from './common.js'
+import { addText, headlineSize, screenState, standInFront, textBox } from './common.js'
 import { wobble } from '../lib/ease.js'
 import { drawCover } from '../lib/screen.js'
 import { fontStack } from '../catalog/fonts.js'
@@ -226,7 +226,8 @@ export const STILL = {
     const laptop = await ctx.device({ mode: '3d', model: d.laptop ?? 'macbook-pro-16' })
     const phone = await ctx.device({ mode: d.mode === 'flat' ? 'flat' : '3d' })
     placeFrom(ctx, laptop, d)
-    placeFrom(ctx, phone, { ...d, ...d.phone })
+    const ph = { ...d, ...d.phone }
+    standInFront(ctx, laptop, phone, { x: ph.x * ctx.W, y: ph.y * ctx.H, z: (ph.z ?? 0) * ctx.H, size: ph.size * ctx.H, ...poseOf(ph) })
     laptop.paint(await screenState(ctx, ctx.desktopIndex ?? ctx.index, 0, 1, { desktop: true }))
     await paintSlide(ctx, phone)
     return () => {}

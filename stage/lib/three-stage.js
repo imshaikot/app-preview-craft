@@ -516,6 +516,27 @@ export class Device3D {
     this.group.visible = visible && scale > 0.001
   }
 
+  /**
+   * World z-range of the placed device: [nearest the camera, farthest]. A
+   * laptop measures its deck only — the open lid leans away, so the box around
+   * the whole model claims room in front of the screen that nothing occupies.
+   */
+  depthRange() {
+    const { x, y, z } = this.dims
+    const v = new THREE.Vector3()
+    let near = -Infinity
+    let far = Infinity
+    for (const sx of [-0.5, 0.5])
+      for (const sy of this.lidGroup ? [-0.5] : [-0.5, 0.5])
+        for (const sz of [-0.5, 0.5]) {
+          v.set(sx * x, sy * y, sz * z).applyEuler(this.pivot.rotation)
+          near = Math.max(near, v.z)
+          far = Math.min(far, v.z)
+        }
+    const s = this.group.scale.x
+    return [this.group.position.z + near * s, this.group.position.z + far * s]
+  }
+
   /** Paint the display; arguments go to ScreenPainter.paint. */
   paint(a, b, p, mode) {
     this.painter.paint(a, b, p, mode)
